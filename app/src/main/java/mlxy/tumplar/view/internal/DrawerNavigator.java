@@ -38,6 +38,10 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
                 switchToDashboard();
                 toCheckItem = true;
                 break;
+            case R.id.menu_likes:
+                switchToLikes();
+                toCheckItem = true;
+                break;
             case R.id.menu_settings:
                 openSettings();
                 toCheckItem = false;
@@ -62,6 +66,9 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
         toolBar.setTitle(R.string.dashboard);
         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content, new DashboardFragment()).commit();
+    }
+
+    private void switchToLikes() {
     }
 
     private void openSettings() {

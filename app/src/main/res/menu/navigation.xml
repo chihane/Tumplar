@@ -11,6 +11,11 @@
             android:id="@+id/menu_dashboard"
             android:icon="@mipmap/ic_dashboard_black_24dp"
             android:title="@string/dashboard" />
+
+        <item
+            android:id="@+id/menu_likes"
+            android:icon="@mipmap/ic_favorite_black_24dp"
+            android:title="@string/likes" />
     </group>
 
     <group android:id="@+id/sub_header">
