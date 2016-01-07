@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="drawer_header">160dp</dimen>
+    <dimen name="drawer_avatar">64dp</dimen>
+
+    <dimen name="item_padding">16dp</dimen>
+
+    <dimen name="avatar_tiny">24dp</dimen>
+    <dimen name="corner_avatar_small">1dp</dimen>
+
+    <dimen name="text_size_subhead">16sp</dimen>
+    <dimen name="text_size_body">14sp</dimen>
+    <dimen name="text_size_caption">12sp</dimen>
+</resources>
