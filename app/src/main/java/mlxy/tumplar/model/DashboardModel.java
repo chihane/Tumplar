@@ -5,7 +5,7 @@ import com.tumblr.jumblr.types.Post;
 
 import java.util.List;
 
-import mlxy.tumplar.tumblr.Tumblr;
+import mlxy.tumplar.tumblr.TumblrClient;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -16,7 +16,7 @@ public class DashboardModel {
         return Observable.create(new Observable.OnSubscribe<List<Post>>() {
             @Override
             public void call(Subscriber<? super List<Post>> subscriber) {
-                subscriber.onNext(Tumblr.userDashboard());
+                subscriber.onNext(TumblrClient.userDashboard());
                 subscriber.onCompleted();
             }
         }).flatMap(new Func1<List<Post>, Observable<Post>>() {

@@ -5,16 +5,13 @@ import android.net.Uri;
 
 import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
 
-import java.net.URL;
-
 import mlxy.tumplar.R;
 import mlxy.tumplar.global.Application;
 import mlxy.tumplar.global.Constants;
+import mlxy.tumplar.global.User;
 import mlxy.tumplar.tumblr.Authorizer;
-import mlxy.tumplar.tumblr.User;
 import mlxy.tumplar.view.OAuthView;
 import mlxy.utils.Prefs;
-import retrofit.http.HTTP;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

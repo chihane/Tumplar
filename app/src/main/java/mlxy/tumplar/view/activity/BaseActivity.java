@@ -4,19 +4,23 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import mlxy.tumplar.R;
+import mlxy.tumplar.view.internal.DrawerHeader;
 import mlxy.tumplar.view.internal.DrawerNavigator;
 
 public class BaseActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
     private Toolbar mToolBar;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private DrawerHeader drawerHeader;
+    private DrawerNavigator drawerNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +55,30 @@ public class BaseActivity extends AppCompatActivity {
     private void setupDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         if (mDrawerLayout != null) {
-            ActionBar actionBar = getSupportActionBar();
-            setupToggle();
             setupNavigationView();
+            setupToggle();
         }
-    }
-
-    private void setupToggle() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open_drawer, R.string.close_drawer);
-        mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     private void setupNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         if (navigationView != null) {
-            new DrawerNavigator(this, mDrawerLayout, navigationView, mToolBar);
+            drawerHeader = new DrawerHeader(this, mDrawerLayout, navigationView);
+            drawerNavigator = new DrawerNavigator(this, mDrawerLayout, navigationView, mToolBar);
         }
+    }
+
+    private void setupToggle() {
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open_drawer, R.string.close_drawer) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // For updating avatar on drawer opened.
+                drawerHeader.onDrawerOpened();
+            }
+        };
+        mDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     protected FloatingActionButton showFloatActionButton() {

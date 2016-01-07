@@ -15,13 +15,6 @@ import com.tumblr.jumblr.types.PhotoPost;
 import java.util.List;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.tumblr.Tumblr;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
     private final LayoutInflater inflater;
@@ -61,7 +54,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 //        Observable.create(new Observable.OnSubscribe<String>() {
 //            @Override
 //            public void call(Subscriber<? super String> subscriber) {
-//                subscriber.onNext(Tumblr.blogAvatar(post.getBlogName()));
+//                subscriber.onNext(TumblrClient.blogAvatar(post.getBlogName()));
 //                subscriber.onCompleted();
 //            }
 //        }).subscribeOn(Schedulers.newThread())

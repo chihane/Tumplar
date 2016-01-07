@@ -1,15 +1,14 @@
 package mlxy.tumplar.tumblr;
 
-import android.text.TextUtils;
-
-import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.*;
+import com.tumblr.jumblr.types.User;
 
 import java.util.List;
 import java.util.Map;
 
-import mlxy.tumplar.global.Constants;
+import mlxy.tumplar.global.*;
 
-public class Tumblr {
+public class TumblrClient {
     private static com.tumblr.jumblr.JumblrClient client;
 
     public static void initialize() {
@@ -17,10 +16,11 @@ public class Tumblr {
     }
 
     public static void setToken(String token, String tokenSecret) {
-        if (TextUtils.isEmpty(token) || TextUtils.isEmpty(tokenSecret)) {
-            return;
-        }
         client.setToken(token, tokenSecret);
+    }
+
+    public static User userInfo() {
+        return client.user();
     }
 
     public static String blogAvatar(String blogName) {

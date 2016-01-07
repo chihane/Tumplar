@@ -25,6 +25,8 @@ android {
     }
 }
 
+ext.support_version = '23.1.1'
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -41,12 +43,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.facebook.fresco:fresco:0.8.1'
 
-    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
-
     compile 'io.reactivex:rxjava:1.0.16'
     compile 'io.reactivex:rxandroid:1.0.1'
 
-    compile 'mlxy.utils:utils:1.0.4'
+    compile 'mlxy.utils:utils:1.0.5'
 }

@@ -5,8 +5,7 @@ import com.tumblr.jumblr.types.Post;
 
 import java.util.List;
 
-import mlxy.tumplar.model.DashboardModel;
-import mlxy.tumplar.tumblr.Tumblr;
+import mlxy.tumplar.tumblr.TumblrClient;
 import mlxy.tumplar.view.DashboardView;
 import rx.Observable;
 import rx.Subscriber;
@@ -31,7 +30,7 @@ public class DashboardPresenter implements Presentable<DashboardView> {
         Observable.create(new Observable.OnSubscribe<List<Post>>() {
             @Override
             public void call(Subscriber<? super List<Post>> subscriber) {
-                subscriber.onNext(Tumblr.userDashboard());
+                subscriber.onNext(TumblrClient.userDashboard());
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.newThread())

@@ -5,6 +5,7 @@
                 android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/imageViewDrawerHeaderBackground"
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_header"
         android:contentDescription="@string/drawer_header_background_content_description"
@@ -12,7 +13,7 @@
         android:src="@drawable/bg_drawer_header" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/simpleDraweeAvatar"
+        android:id="@+id/draweeAvatar"
         android:layout_width="@dimen/drawer_avatar"
         android:layout_height="@dimen/drawer_avatar"
         android:layout_centerVertical="true"
