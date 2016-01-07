@@ -58,20 +58,20 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     private void updatePosterInfo(final ViewHolder holder, final PhotoPost post) {
         holder.textViewBlogName.setText(post.getBlogName());
 
-        Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext(Tumblr.blogAvatar(post.getBlogName()));
-                subscriber.onCompleted();
-            }
-        }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String avatarUrl) {
-                        holder.draweeAvatar.setImageURI(Uri.parse(avatarUrl));
-                    }
-                });
+//        Observable.create(new Observable.OnSubscribe<String>() {
+//            @Override
+//            public void call(Subscriber<? super String> subscriber) {
+//                subscriber.onNext(Tumblr.blogAvatar(post.getBlogName()));
+//                subscriber.onCompleted();
+//            }
+//        }).subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<String>() {
+//                    @Override
+//                    public void call(String avatarUrl) {
+//                        holder.draweeAvatar.setImageURI(Uri.parse(avatarUrl));
+//                    }
+//                });
     }
 
 
