@@ -1,6 +1,5 @@
 package mlxy.tumplar.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.global.Constants;
-import mlxy.tumplar.view.activity.LoginActivity;
 
 public class HomeFragment extends BaseFragment {
     private TextView textView;
@@ -26,7 +23,7 @@ public class HomeFragment extends BaseFragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+//                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
         return view;

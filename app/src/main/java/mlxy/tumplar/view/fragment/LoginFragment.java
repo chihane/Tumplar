@@ -2,20 +2,16 @@ package mlxy.tumplar.view.fragment;
 
 import android.accounts.NetworkErrorException;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,7 +19,6 @@ import android.webkit.WebViewClient;
 import mlxy.tumplar.R;
 import mlxy.tumplar.presenter.OAuthPresenter;
 import mlxy.tumplar.view.OAuthView;
-import mlxy.utils.L;
 import mlxy.utils.T;
 
 public class LoginFragment extends BaseFragment implements OAuthView {
@@ -98,6 +93,9 @@ public class LoginFragment extends BaseFragment implements OAuthView {
     }
 
     private void initWebView(WebView webView) {
+        // Re-login every time
+        removeAllCookies();
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -122,6 +120,17 @@ public class LoginFragment extends BaseFragment implements OAuthView {
         });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+    }
+
+    private void removeAllCookies() {
+        CookieManager cookieManager = CookieManager.getInstance();
+        if (cookieManager.hasCookies()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cookieManager.removeAllCookies(null);
+            } else {
+                cookieManager.removeAllCookie();
+            }
+        }
     }
 
     private void showLoadingProgress() {
