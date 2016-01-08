@@ -13,7 +13,10 @@ public class User {
     private static volatile String access_token;
     private static volatile String access_token_secret;
 
-    public static void login(String token, String tokenSecret) {
+    public static void tryLogin() {
+        String token = Prefs.get(Application.context, Constants.KEY_TOKEN, "");
+        String tokenSecret = Prefs.get(Application.context, Constants.KEY_TOKEN_SECRET, "");
+
         if (TextUtils.isEmpty(token) || TextUtils.isEmpty(tokenSecret)) {
             return;
         }
@@ -36,5 +39,10 @@ public class User {
         Prefs.remove(Application.context, Constants.KEY_TOKEN_SECRET);
 
         hasLogedIn = false;
+    }
+
+    public static void saveToken(String token, String tokenSecret) {
+        Prefs.put(Application.context, Constants.KEY_TOKEN, token);
+        Prefs.put(Application.context, Constants.KEY_TOKEN_SECRET, tokenSecret);
     }
 }

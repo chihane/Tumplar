@@ -122,10 +122,9 @@ public class OAuthPresenter implements Presentable<OAuthView> {
                             public void call(Subscriber<? super Object> subscriber) {
                                 String token = oAuthCredentialsResponse.token;
                                 String tokenSecret = oAuthCredentialsResponse.tokenSecret;
-                                Prefs.put(Application.context, Constants.KEY_TOKEN, token);
-                                Prefs.put(Application.context, Constants.KEY_TOKEN_SECRET, tokenSecret);
 
-                                User.login(token, tokenSecret);
+                                User.saveToken(token, tokenSecret);
+                                User.tryLogin();
 
                                 subscriber.onCompleted();
                             }

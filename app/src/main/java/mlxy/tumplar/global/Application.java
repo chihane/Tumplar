@@ -16,7 +16,7 @@ public class Application extends android.app.Application {
         context = this;
 
         TumblrClient.initialize();
-        User.login(Prefs.get(this, Constants.KEY_TOKEN, ""), Prefs.get(this, Constants.KEY_TOKEN_SECRET, ""));
+        User.tryLogin();
 
         Fresco.initialize(this);
     }
