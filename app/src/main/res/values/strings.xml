@@ -20,8 +20,9 @@
     <string name="msg_loading">Loading...</string>
     <string name="msg_accessing_token">Accessing token...</string>
     <string name="retry">RETRY</string>
-    <string name="msg_token_accessed">Login succeeded.</string>
+    <string name="msg_token_accessed">Login succeeded</string>
     <string name="msg_confirm_logout">Are you sure to logout?</string>
     <string name="logout">LOGOUT</string>
     <string name="cancel">CANCEL</string>
+    <string name="error_auth_failed">Authorization failed</string>
 </resources>

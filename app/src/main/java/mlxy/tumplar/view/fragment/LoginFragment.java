@@ -22,11 +22,13 @@ import mlxy.tumplar.view.OAuthView;
 import mlxy.utils.T;
 
 public class LoginFragment extends BaseFragment implements OAuthView {
-    private OAuthPresenter oAuthPresenter;
-    private ProgressDialog authorizingDialog;
     private View rootView;
+    private OAuthPresenter oAuthPresenter;
+
     private WebView webView;
+
     private View loadingProgressBar;
+    private ProgressDialog authorizingDialog;
     private ProgressDialog accessingTokenDialog;
 
     public LoginFragment() {
@@ -43,7 +45,7 @@ public class LoginFragment extends BaseFragment implements OAuthView {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         oAuthPresenter.onTakeView(this);
     }

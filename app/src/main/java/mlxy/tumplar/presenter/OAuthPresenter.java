@@ -11,7 +11,6 @@ import mlxy.tumplar.global.Constants;
 import mlxy.tumplar.global.User;
 import mlxy.tumplar.tumblr.Authorizer;
 import mlxy.tumplar.view.OAuthView;
-import mlxy.utils.Prefs;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -96,18 +95,31 @@ public class OAuthPresenter implements Presentable<OAuthView> {
 
             // OAuth authorization callback. See https://www.tumblr.com/docs/en/api/v2#auth
             if (url.contains(Application.context.getString(R.string.oauth_callback_scheme)) && url.contains(Application.context.getString(R.string.oauth_callback_host))) {
-                String newUrl = url.replace("https://www.tumblr.com/oauth/", "");
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(newUrl));
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
-
-                view.startActivity(intent);
-                view.stopLoading();
+                // https://www.tumblr.com/oauth/oauth_callback://callback?oauth_token=***&oauth_verifier=***#_=_
+                String callbackUrl = url.replace("https://www.tumblr.com/oauth/", "");
+                handleCallback(callbackUrl);
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void handleCallback(String callbackUrl) {
+        // Permitted:   oauth_callback://callback?oauth_token=***&oauth_verifier=***#_=_
+        // Rejected:    oauth_callback://callback#_=_
+        Uri callbackUri = Uri.parse(callbackUrl);
+        boolean authorizationPermitted = callbackUri.getQueryParameterNames().contains("oauth_verifier");
+        if (authorizationPermitted) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(callbackUrl));
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
+
+            view.startActivity(intent);
+            view.stopLoading();
+        } else {
+            view.close();
+        }
     }
 
     public void accessToken(String verifier) {
