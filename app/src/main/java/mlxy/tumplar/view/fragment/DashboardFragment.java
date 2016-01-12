@@ -74,7 +74,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
 
     @Override
     public void onRefresh() {
-        presenter.refresh();
+//        presenter.refresh();
     }
 
     @Override

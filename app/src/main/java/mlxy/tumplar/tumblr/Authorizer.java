@@ -7,10 +7,14 @@ import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
 import com.google.api.client.auth.oauth.OAuthGetAccessToken;
 import com.google.api.client.auth.oauth.OAuthGetTemporaryToken;
 import com.google.api.client.auth.oauth.OAuthHmacSigner;
+import com.google.api.client.auth.oauth.OAuthParameters;
+import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
+import mlxy.tumplar.global.Constants;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -91,5 +95,22 @@ public class Authorizer {
                 }
             }
         });
+    }
+
+    public static String getAuthorizationHeader(String token, String tokenSecret, String httpMethod, String url) throws GeneralSecurityException {
+        OAuthHmacSigner signer = new OAuthHmacSigner();
+        signer.clientSharedSecret = Constants.CONSUMER_SECRET;
+        signer.tokenSharedSecret = tokenSecret;
+
+        OAuthParameters params = new OAuthParameters();
+        params.consumerKey = Constants.CONSUMER_KEY;
+        params.signer = signer;
+        params.token = token;
+        params.computeNonce();
+        params.computeTimestamp();
+
+        params.computeSignature(httpMethod, new GenericUrl(url));
+
+        return params.getAuthorizationHeader();
     }
 }

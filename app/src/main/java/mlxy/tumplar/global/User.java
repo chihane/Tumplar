@@ -10,8 +10,8 @@ public class User {
     public static volatile com.tumblr.jumblr.types.User info;
     public static volatile String avatarUrl;
 
-    private static volatile String access_token;
-    private static volatile String access_token_secret;
+    public static volatile String access_token;
+    public static volatile String access_token_secret;
 
     public static void tryLogin() {
         String token = Prefs.get(Application.context, Constants.KEY_TOKEN, "");
