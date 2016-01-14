@@ -8,7 +8,6 @@ import mlxy.utils.Prefs;
 public class User {
     public static volatile boolean hasLogedIn = false;
     public static volatile com.tumblr.jumblr.types.User info;
-    public static volatile String avatarUrl;
 
     public static volatile String access_token;
     public static volatile String access_token_secret;

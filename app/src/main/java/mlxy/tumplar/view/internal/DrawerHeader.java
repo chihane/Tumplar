@@ -17,7 +17,6 @@ import mlxy.tumplar.presenter.DrawerHeaderPresenter;
 import mlxy.tumplar.view.DrawerHeaderView;
 import mlxy.tumplar.view.activity.BaseActivity;
 import mlxy.tumplar.view.activity.LoginActivity;
-import mlxy.utils.T;
 
 public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
     private BaseActivity activity;
@@ -85,24 +84,24 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
     }
 
     @Override
-    public void displayAvatar(String avatarUrl) {
-        draweeAvatar.setImageURI(Uri.parse(avatarUrl));
+    public void displayAvatar(Uri avatarUri) {
+        draweeAvatar.setImageURI(avatarUri);
     }
 
     @Override
-    public void restoreDefaultAvatar() {
+    public void displayDefaultAvatar() {
         draweeAvatar.setImageURI(null);
     }
 
     @Override
     public void showError(Throwable e) {
-        T.showLong(activity, e.getLocalizedMessage());
+//        T.showLong(activity, e.getLocalizedMessage());
     }
 
     @Override
     public void onDrawerOpened() {
-        if (presenter != null) {
-            presenter.refresh();
-        }
+//        if (presenter != null) {
+//            presenter.refresh();
+//        }
     }
 }

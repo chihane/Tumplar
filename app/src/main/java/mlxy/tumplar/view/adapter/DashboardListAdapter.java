@@ -1,10 +1,8 @@
 package mlxy.tumplar.view.adapter;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -15,14 +13,13 @@ import com.tumblr.jumblr.types.PhotoPost;
 import java.util.List;
 
 import mlxy.tumplar.R;
+import mlxy.tumplar.model.AvatarModel;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
-    private final LayoutInflater inflater;
     private List<PhotoPost> data;
-
-    public DashboardListAdapter(Context context) {
-        this.inflater = LayoutInflater.from(context);
-    }
+    private ViewHolder holder;
 
     public void setData(List<PhotoPost> data) {
         this.data = data;
@@ -36,57 +33,65 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_dashboard, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        PhotoPost post = data.get(position);
-
-        updatePosterInfo(holder, post);
-        loadImages(holder, post);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final PhotoPost photoPost = data.get(position);
+        holder.onBlogNameNext(photoPost.getBlogName());
+        holder.onPhotosNext(photoPost.getPhotos());
+        loadAvatar(holder, photoPost);
     }
 
-    private void updatePosterInfo(final ViewHolder holder, final PhotoPost post) {
-        holder.textViewBlogName.setText(post.getBlogName());
-
-//        Observable.create(new Observable.OnSubscribe<String>() {
-//            @Override
-//            public void call(Subscriber<? super String> subscriber) {
-//                subscriber.onNext(TumblrClient.blogAvatar(post.getBlogName()));
-//                subscriber.onCompleted();
-//            }
-//        }).subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Action1<String>() {
-//                    @Override
-//                    public void call(String avatarUrl) {
-//                        holder.draweeAvatar.setImageURI(Uri.parse(avatarUrl));
-//                    }
-//                });
+    private void loadAvatar(final ViewHolder holder, final PhotoPost photoPost) {
+        AvatarModel.getInstance().get(photoPost.getBlogName())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        holder.onAvatarNext(null);
+                    }
+                })
+                .subscribe(new Action1<Uri>() {
+                    @Override
+                    public void call(Uri uri) {
+                        holder.onAvatarNext(uri);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        // eat it
+                    }
+                });
     }
 
-
-    private void loadImages(ViewHolder holder, PhotoPost post) {
-        List<Photo> photos = post.getPhotos();
-        Photo photo = photos.get(0);
-
-        float aspectRatio = (float) photo.getOriginalSize().getHeight() / photo.getOriginalSize().getWidth();
-        holder.draweeImage.setAspectRatio(aspectRatio);
-        holder.draweeImage.setImageURI(Uri.parse(photo.getOriginalSize().getUrl()));
-    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView draweeAvatar;
-        TextView textViewBlogName;
-        SimpleDraweeView draweeImage;
+        private SimpleDraweeView draweeAvatar;
+        private TextView textViewBlogName;
+        private SimpleDraweeView draweeImage;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(ViewGroup parent, int viewType) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false));
             draweeImage = (SimpleDraweeView) itemView.findViewById(R.id.draweeImage);
             draweeAvatar = (SimpleDraweeView) itemView.findViewById(R.id.draweeAvatar);
             textViewBlogName = (TextView) itemView.findViewById(R.id.textViewBlogName);
+        }
+
+        public void onBlogNameNext(String blogName) {
+            textViewBlogName.setText(blogName);
+        }
+
+        public void onAvatarNext(Uri avatarUri) {
+            draweeAvatar.setImageURI(avatarUri);
+        }
+
+        public void onPhotosNext(List<Photo> photos) {
+            Photo photo = photos.get(0);
+
+            float aspectRatio = (float) photo.getOriginalSize().getHeight() / photo.getOriginalSize().getWidth();
+            draweeImage.setAspectRatio(aspectRatio);
+            draweeImage.setImageURI(Uri.parse(photo.getOriginalSize().getUrl()));
         }
     }
 }

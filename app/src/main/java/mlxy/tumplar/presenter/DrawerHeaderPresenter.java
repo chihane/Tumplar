@@ -1,11 +1,13 @@
 package mlxy.tumplar.presenter;
 
-import mlxy.tumplar.global.Application;
-import mlxy.tumplar.global.Constants;
+import android.net.Uri;
+
+import com.tumblr.jumblr.types.Blog;
+
 import mlxy.tumplar.global.User;
+import mlxy.tumplar.model.AvatarModel;
 import mlxy.tumplar.tumblr.TumblrClient;
 import mlxy.tumplar.view.DrawerHeaderView;
-import mlxy.utils.Prefs;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -16,6 +18,8 @@ import rx.schedulers.Schedulers;
 public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
     private DrawerHeaderView view;
 
+    private Uri avatarUri;
+
     public DrawerHeaderPresenter() {
         refresh();
     }
@@ -25,6 +29,11 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
             publish();
             return;
         }
+
+        displayAvatar();
+    }
+
+    private void displayAvatar() {
         Observable.just(User.info)
                 .concatWith(Observable.create(new Observable.OnSubscribe<com.tumblr.jumblr.types.User>() {
                     @Override
@@ -38,39 +47,38 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
                         User.info = user;
                     }
                 }))
-                .first(new Func1<com.tumblr.jumblr.types.User, Boolean>() {
+                .filter(new Func1<com.tumblr.jumblr.types.User, Boolean>() {
                     @Override
                     public Boolean call(com.tumblr.jumblr.types.User user) {
                         return user != null;
                     }
                 })
-                .filter(new Func1<com.tumblr.jumblr.types.User, Boolean>() {
+                .map(new Func1<com.tumblr.jumblr.types.User, Blog>() {
                     @Override
-                    public Boolean call(com.tumblr.jumblr.types.User user) {
-                        return user.getBlogs() != null && user.getBlogs().size() > 0;
+                    public Blog call(com.tumblr.jumblr.types.User user) {
+                        return user.getBlogs().get(0);
                     }
                 })
-                .map(new Func1<com.tumblr.jumblr.types.User, String>() {
+                .flatMap(new Func1<Blog, Observable<Uri>>() {
                     @Override
-                    public String call(com.tumblr.jumblr.types.User user) {
-                        return user.getBlogs().get(0).avatar();
+                    public Observable<Uri> call(Blog blog) {
+                        return AvatarModel.getInstance().get(blog.getName());
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                               @Override
-                               public void call(String avatarUrl) {
-                                   User.avatarUrl = avatarUrl;
-                                   publish();
-                               }
-                           }, new Action1<Throwable>() {
-                               @Override
-                               public void call(Throwable throwable) {
-                                   view.showError(throwable);
-                               }
-                           }
-                );
+                .subscribe(new Action1<Uri>() {
+                    @Override
+                    public void call(Uri uri) {
+                        avatarUri = uri;
+                        publish();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        view.showError(throwable);
+                    }
+                });
     }
 
     @Override
@@ -81,12 +89,10 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
 
     @Override
     public void publish() {
-        if (view != null) {
-            if (User.hasLogedIn && User.avatarUrl != null) {
-                view.displayAvatar(User.avatarUrl);
-            } else {
-                view.restoreDefaultAvatar();
-            }
+        if (User.hasLogedIn && avatarUri != null) {
+            view.displayAvatar(avatarUri);
+        } else {
+            view.displayDefaultAvatar();
         }
     }
 
