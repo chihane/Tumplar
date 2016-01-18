@@ -35,8 +35,8 @@ public class AvatarModel {
     }
 
     public synchronized Observable<Uri> get(final String blogName) {
-        return fromNet(blogName)
-                .concatWith(fromCache(blogName))
+        return fromCache(blogName)
+                .concatWith(fromNet(blogName))
                 .first(new Func1<Uri, Boolean>() {
                     @Override
                     public Boolean call(Uri uri) {
