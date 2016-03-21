@@ -25,7 +25,7 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
     }
 
     public void refresh() {
-        if (!User.hasLogedIn) {
+        if (!User.hasLoggedIn) {
             publish();
             return;
         }
@@ -89,15 +89,17 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
 
     @Override
     public void publish() {
-        if (User.hasLogedIn && avatarUri != null) {
-            view.displayAvatar(avatarUri);
-        } else {
-            view.displayDefaultAvatar();
+        if (view != null) {
+            if (User.hasLoggedIn && avatarUri != null) {
+                view.displayAvatar(avatarUri);
+            } else {
+                view.displayDefaultAvatar();
+            }
         }
     }
 
     public void onUserAvatarClicked() {
-        boolean hasLogedIn = User.hasLogedIn;
+        boolean hasLogedIn = User.hasLoggedIn;
         if (!hasLogedIn) {
             view.goLogin();
         } else {

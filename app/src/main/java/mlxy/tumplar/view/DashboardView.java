@@ -1,12 +1,12 @@
 package mlxy.tumplar.view;
 
-import com.tumblr.jumblr.types.PhotoPost;
-
 import java.util.List;
+
+import mlxy.tumplar.entity.DashboardPhotoResponse;
 
 public interface DashboardView {
 
-    void onPostsNext(List<PhotoPost> posts);
+    void onPostsNext(List<DashboardPhotoResponse.ResponseEntity.PostsEntity> posts);
 
     void onError(Throwable error);
 

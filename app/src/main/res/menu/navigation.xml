@@ -14,8 +14,9 @@
 
         <item
             android:id="@+id/menu_likes"
-            android:icon="@mipmap/ic_favorite_black_24dp"
+            android:icon="@mipmap/ic_dashboard_black_24dp"
             android:title="@string/likes" />
+            <!--android:icon="@mipmap/ic_favorite_black_24dp"-->
     </group>
 
     <group android:id="@+id/sub_header">

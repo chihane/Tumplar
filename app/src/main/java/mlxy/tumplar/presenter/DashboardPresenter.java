@@ -1,25 +1,28 @@
 package mlxy.tumplar.presenter;
 
-import com.tumblr.jumblr.types.PhotoPost;
-import com.tumblr.jumblr.types.Post;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import mlxy.tumplar.tumblr.TumblrClient;
+import javax.inject.Inject;
+
+import mlxy.tumplar.entity.DashboardPhotoResponse;
+import mlxy.tumplar.global.App;
+import mlxy.tumplar.model.DashboardModel;
 import mlxy.tumplar.view.DashboardView;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import rx.functions.Action1;
 
 public class DashboardPresenter implements Presentable<DashboardView> {
+    @Inject
+    DashboardModel model;
+
     private DashboardView view;
 
-    private List<PhotoPost> data;
+    private List<DashboardPhotoResponse.ResponseEntity.PostsEntity> data;
     private Throwable error;
 
     public DashboardPresenter() {
+        App.component.inject(this);
         refresh();
     }
 
@@ -27,35 +30,17 @@ public class DashboardPresenter implements Presentable<DashboardView> {
         data = null;
         error = null;
 
-        Observable.create(new Observable.OnSubscribe<List<Post>>() {
-            @Override
-            public void call(Subscriber<? super List<Post>> subscriber) {
-                subscriber.onNext(TumblrClient.userDashboard());
-                subscriber.onCompleted();
-            }
-        }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<List<Post>, Observable<Post>>() {
+        model.dashboard()
+                .subscribe(new Action1<DashboardPhotoResponse>() {
                     @Override
-                    public Observable<Post> call(List<Post> posts) {
-                        return Observable.from(posts);
-                    }
-                }).ofType(PhotoPost.class).cast(PhotoPost.class).toList()
-                .subscribe(new Subscriber<List<PhotoPost>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        error = e;
+                    public void call(DashboardPhotoResponse response) {
+                        data = response.response.posts;
                         publish();
                     }
-
+                }, new Action1<Throwable>() {
                     @Override
-                    public void onNext(List<PhotoPost> photoPosts) {
-                        data = photoPosts;
+                    public void call(Throwable throwable) {
+                        error = throwable;
                         publish();
                     }
                 });

@@ -6,7 +6,7 @@ import android.net.Uri;
 import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.global.Application;
+import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.Constants;
 import mlxy.tumplar.global.User;
 import mlxy.tumplar.tumblr.Authorizer;
@@ -19,7 +19,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class OAuthPresenter implements Presentable<OAuthView> {
-    private static String callbackUrl = Application.context.getString(R.string.oauth_callback_scheme) + "://" + Application.context.getString(R.string.oauth_callback_host);
+    private static String callbackUrl = App.component.context().getString(R.string.oauth_callback_scheme) + "://" + App.component.context().getString(R.string.oauth_callback_host);
 
     enum State { IDLE, AUTHORIZING, AUTHORIZED, ACCESSING_TOKEN, TOKEN_ACCESSED, ERROR }
 
@@ -94,7 +94,7 @@ public class OAuthPresenter implements Presentable<OAuthView> {
             }
 
             // OAuth authorization callback. See https://www.tumblr.com/docs/en/api/v2#auth
-            if (url.contains(Application.context.getString(R.string.oauth_callback_scheme)) && url.contains(Application.context.getString(R.string.oauth_callback_host))) {
+            if (url.contains(App.component.context().getString(R.string.oauth_callback_scheme)) && url.contains(App.component.context().getString(R.string.oauth_callback_host))) {
                 // https://www.tumblr.com/oauth/oauth_callback://callback?oauth_token=***&oauth_verifier=***#_=_
                 String callbackUrl = url.replace("https://www.tumblr.com/oauth/", "");
                 handleCallback(callbackUrl);

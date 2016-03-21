@@ -1,32 +1,24 @@
 package mlxy.tumplar.model;
 
-import com.tumblr.jumblr.types.PhotoPost;
-import com.tumblr.jumblr.types.Post;
+import javax.inject.Inject;
 
-import java.util.List;
-
-import mlxy.tumplar.tumblr.TumblrClient;
+import mlxy.tumplar.entity.DashboardPhotoResponse;
+import mlxy.tumplar.model.service.DashboardService;
 import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class DashboardModel {
+    @Inject
+    DashboardService service;
 
+    @Inject
     public DashboardModel() {
     }
 
-    public Observable<List<PhotoPost>> requestData() {
-        return Observable.create(new Observable.OnSubscribe<List<Post>>() {
-            @Override
-            public void call(Subscriber<? super List<Post>> subscriber) {
-                subscriber.onNext(TumblrClient.userDashboard());
-                subscriber.onCompleted();
-            }
-        }).flatMap(new Func1<List<Post>, Observable<Post>>() {
-            @Override
-            public Observable<Post> call(List<Post> posts) {
-                return Observable.from(posts);
-            }
-        }).ofType(PhotoPost.class).cast(PhotoPost.class).toList();
+    public Observable<DashboardPhotoResponse> dashboard() {
+        return service.dashboard()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
