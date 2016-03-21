@@ -2,8 +2,7 @@ package mlxy.tumplar.model;
 
 import javax.inject.Inject;
 
-import mlxy.tumplar.entity.DashboardPhotoResponse;
-import mlxy.tumplar.entity.UserInfoResponse;
+import mlxy.tumplar.entity.response.DashboardPhotoResponse;
 import mlxy.tumplar.model.service.UserService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

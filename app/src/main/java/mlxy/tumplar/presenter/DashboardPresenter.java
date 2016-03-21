@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import mlxy.tumplar.entity.DashboardPhotoResponse;
+import mlxy.tumplar.entity.response.DashboardPhotoResponse;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DashboardView;

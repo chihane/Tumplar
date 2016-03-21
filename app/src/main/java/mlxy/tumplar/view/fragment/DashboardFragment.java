@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.entity.DashboardPhotoResponse;
+import mlxy.tumplar.entity.response.DashboardPhotoResponse;
 import mlxy.tumplar.presenter.DashboardPresenter;
 import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;

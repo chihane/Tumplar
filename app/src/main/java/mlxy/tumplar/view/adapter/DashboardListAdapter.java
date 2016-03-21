@@ -7,13 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.tumblr.jumblr.types.Photo;
-import com.tumblr.jumblr.types.PhotoPost;
 
 import java.util.List;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.entity.DashboardPhotoResponse;
+import mlxy.tumplar.entity.response.DashboardPhotoResponse;
 import mlxy.tumplar.model.AvatarModel;
 import rx.functions.Action0;
 import rx.functions.Action1;

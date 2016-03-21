@@ -1,4 +1,4 @@
-package mlxy.tumplar.entity;
+package mlxy.tumplar.entity.response;
 
 import java.util.List;
 

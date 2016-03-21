@@ -1,7 +1,6 @@
 package mlxy.tumplar.model.service;
 
-import mlxy.tumplar.entity.DashboardPhotoResponse;
-import mlxy.tumplar.entity.UserInfoResponse;
+import mlxy.tumplar.entity.response.DashboardPhotoResponse;
 import mlxy.tumplar.global.Apis;
 import retrofit.http.GET;
 import rx.Observable;

@@ -2,7 +2,7 @@ package mlxy.tumplar.view;
 
 import java.util.List;
 
-import mlxy.tumplar.entity.DashboardPhotoResponse;
+import mlxy.tumplar.entity.response.DashboardPhotoResponse;
 
 public interface DashboardView {
 
