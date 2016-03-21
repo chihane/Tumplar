@@ -44,7 +44,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         });
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DashboardListAdapter();
         recyclerView.setAdapter(adapter);

@@ -3,17 +3,24 @@ package mlxy.tumplar.model;
 import javax.inject.Inject;
 
 import mlxy.tumplar.entity.DashboardPhotoResponse;
-import mlxy.tumplar.model.service.DashboardService;
+import mlxy.tumplar.entity.UserInfoResponse;
+import mlxy.tumplar.model.service.UserService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DashboardModel {
+public class UserModel {
     @Inject
-    DashboardService service;
+    UserService service;
 
     @Inject
-    public DashboardModel() {
+    public UserModel() {
+    }
+
+    public Observable<UserInfoResponse> me() {
+        return service.me()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<DashboardPhotoResponse> dashboard() {

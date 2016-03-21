@@ -1,20 +1,18 @@
 package mlxy.tumplar.presenter;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
 import mlxy.tumplar.entity.DashboardPhotoResponse;
 import mlxy.tumplar.global.App;
-import mlxy.tumplar.model.DashboardModel;
+import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DashboardView;
 import rx.functions.Action1;
 
 public class DashboardPresenter implements Presentable<DashboardView> {
     @Inject
-    DashboardModel model;
+    UserModel model;
 
     private DashboardView view;
 
