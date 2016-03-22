@@ -3,10 +3,12 @@ package mlxy.tumplar.view.adapter;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -20,8 +22,9 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
+    private static int TYPE_FOOTER = 0x111;
+
     private List<PhotoPost> data;
-    private ViewHolder holder;
 
     public void setData(List<PhotoPost> data) {
         this.data = data;
@@ -30,7 +33,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size();
+        return data == null ? 0 : data.size() + 1;
     }
 
     @Override
@@ -39,7 +42,21 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) {
+            return TYPE_FOOTER;
+        } else {
+            return super.getItemViewType(position);
+        }
+    }
+
+    @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (getItemViewType(position) == TYPE_FOOTER) {
+            // TODO invoke callback
+            return;
+        }
+
         final PhotoPost photoPost = data.get(position);
         holder.onBlogNameNext(photoPost.blog_name);
         holder.onPhotosNext(photoPost.photos);
@@ -67,14 +84,13 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
                 });
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView draweeAvatar;
         private TextView textViewBlogName;
         private SimpleDraweeView draweeImage;
 
         public ViewHolder(ViewGroup parent, int viewType) {
-            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false));
+            super(inflateViewByViewType(parent, viewType));
             draweeImage = (SimpleDraweeView) itemView.findViewById(R.id.draweeImage);
             draweeAvatar = (SimpleDraweeView) itemView.findViewById(R.id.draweeAvatar);
             textViewBlogName = (TextView) itemView.findViewById(R.id.textViewBlogName);
@@ -94,6 +110,14 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
             float aspectRatio = (float) photo.original_size.height / photo.original_size.width;
             draweeImage.setAspectRatio(aspectRatio);
             draweeImage.setImageURI(Uri.parse(photo.original_size.url));
+        }
+    }
+
+    private static View inflateViewByViewType(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_FOOTER) {
+            return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_footer, parent, false);
+        } else {
+            return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false);
         }
     }
 }
