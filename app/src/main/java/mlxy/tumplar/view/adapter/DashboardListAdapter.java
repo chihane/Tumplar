@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mlxy.tumplar.R;
 import mlxy.tumplar.entity.Photo;
 import mlxy.tumplar.entity.PhotoPost;
-import mlxy.tumplar.entity.Post;
-import mlxy.tumplar.entity.response.DashboardResponse;
 import mlxy.tumplar.model.AvatarModel;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -24,11 +22,25 @@ import rx.functions.Action1;
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
     private static int TYPE_FOOTER = 0x111;
 
+    private OnLoadMoreListener listener;
+
     private List<PhotoPost> data;
 
-    public void setData(List<PhotoPost> data) {
-        this.data = data;
-        notifyDataSetChanged();
+    public void appendData(List<PhotoPost> data) {
+        if (data == null) return;
+        if (this.data == null) {
+            this.data = new ArrayList<>();
+        }
+
+        this.data.addAll(data);
+        notifyItemRangeInserted(this.data.size(), data.size());
+    }
+
+    public void clearData() {
+        if (data != null) {
+            data.clear();
+            notifyItemRangeRemoved(0, data.size());
+        }
     }
 
     @Override
@@ -53,7 +65,9 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_FOOTER) {
-            // TODO invoke callback
+            if (listener != null) {
+                listener.onLoadMore(data.size());
+            }
             return;
         }
 
@@ -115,9 +129,17 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
     private static View inflateViewByViewType(ViewGroup parent, int viewType) {
         if (viewType == TYPE_FOOTER) {
-            return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_footer, parent, false);
+            return LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_load_more, parent, false);
         } else {
             return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false);
         }
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore(int offset);
     }
 }

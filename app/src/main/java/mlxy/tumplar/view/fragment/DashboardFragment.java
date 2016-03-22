@@ -18,7 +18,7 @@ import mlxy.tumplar.presenter.DashboardPresenter;
 import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;
 
-public class DashboardFragment extends BaseFragment implements DashboardView, SwipeRefreshLayout.OnRefreshListener {
+public class DashboardFragment extends BaseFragment implements DashboardView, SwipeRefreshLayout.OnRefreshListener, DashboardListAdapter.OnLoadMoreListener {
     private View view;
     private RecyclerView recyclerView;
     private DashboardPresenter presenter;
@@ -46,6 +46,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DashboardListAdapter();
+        adapter.setOnLoadMoreListener(this);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -59,18 +60,17 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
 
     @Override
     public void onPostsNext(List<PhotoPost> posts) {
-        adapter.setData(posts);
+        adapter.appendData(posts);
     }
 
     @Override
     public void onError(Throwable error) {
-        adapter.setData(null);
         Snackbar.make(view, error.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void onRefresh() {
-        presenter.refresh();
+        presenter.loadPosts(0);
     }
 
     @Override
@@ -81,5 +81,10 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onLoadMore(int offset) {
+        presenter.loadPosts(offset);
     }
 }

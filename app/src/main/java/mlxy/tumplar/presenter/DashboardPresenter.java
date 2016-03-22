@@ -5,10 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import mlxy.tumplar.entity.PhotoPost;
-import mlxy.tumplar.entity.PostTypes;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DashboardView;
+import rx.functions.Action0;
 import rx.functions.Action1;
 
 public class DashboardPresenter implements Presentable<DashboardView> {
@@ -17,30 +17,33 @@ public class DashboardPresenter implements Presentable<DashboardView> {
 
     private DashboardView view;
 
-    private List<PhotoPost> data;
-    private Throwable error;
-
     public DashboardPresenter() {
         App.component.inject(this);
-        refresh();
+        loadPosts(0);
     }
 
-    public void refresh() {
-        data = null;
-        error = null;
-
-        model.dashboardPhoto()
+    public void loadPosts(int offset) {
+        model.dashboardPhoto(offset)
                 .subscribe(new Action1<List<PhotoPost>>() {
                     @Override
                     public void call(List<PhotoPost> photoPosts) {
-                        data = photoPosts;
-                        publish();
+                        if (view != null) {
+                            view.onPostsNext(photoPosts);
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        error = throwable;
-                        publish();
+                        if (view != null) {
+                            view.onError(throwable);
+                        }
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        if (view != null) {
+                            view.hideProgressIfShown();
+                        }
                     }
                 });
     }
@@ -48,19 +51,10 @@ public class DashboardPresenter implements Presentable<DashboardView> {
     @Override
     public void onTakeView(DashboardView view) {
         this.view = view;
-        publish();
     }
 
     @Override
     public void publish() {
-        if (view != null) {
-            if (data != null) {
-                view.onPostsNext(data);
-            } else if (error != null) {
-                view.onError(error);
-            }
 
-            view.hideProgressIfShown();
-        }
     }
 }
