@@ -1,4 +1,4 @@
-package mlxy.tumplar.injection;
+package mlxy.tumplar.internal.injection;
 
 import android.content.Context;
 
@@ -13,8 +13,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import mlxy.tumplar.global.Apis;
-import mlxy.tumplar.interceptor.AuthHeaderInterceptor;
-import mlxy.tumplar.interceptor.LoggingInterceptor;
+import mlxy.tumplar.internal.interceptor.AuthHeaderInterceptor;
+import mlxy.tumplar.internal.interceptor.LoggingInterceptor;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;

@@ -1,4 +1,4 @@
-package mlxy.tumplar.injection;
+package mlxy.tumplar.internal.injection;
 
 import javax.inject.Singleton;
 

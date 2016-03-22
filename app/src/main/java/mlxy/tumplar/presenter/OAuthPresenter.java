@@ -9,7 +9,7 @@ import mlxy.tumplar.R;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.Constants;
 import mlxy.tumplar.global.User;
-import mlxy.tumplar.tumblr.Authorizer;
+import mlxy.tumplar.internal.Authorizer;
 import mlxy.tumplar.view.OAuthView;
 import rx.Observable;
 import rx.Subscriber;

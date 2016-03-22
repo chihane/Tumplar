@@ -11,16 +11,17 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.entity.response.DashboardPhotoResponse;
+import mlxy.tumplar.entity.Post;
+import mlxy.tumplar.entity.response.DashboardResponse;
 import mlxy.tumplar.model.AvatarModel;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
-    private List<DashboardPhotoResponse.ResponseEntity.PostsEntity> data;
+    private List<Post> data;
     private ViewHolder holder;
 
-    public void setData(List<DashboardPhotoResponse.ResponseEntity.PostsEntity> data) {
+    public void setData(List<Post> data) {
         this.data = data;
         notifyDataSetChanged();
     }
@@ -37,13 +38,13 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final DashboardPhotoResponse.ResponseEntity.PostsEntity photoPost = data.get(position);
+        final DashboardResponse.ResponseEntity.PostsEntity photoPost = data.get(position);
         holder.onBlogNameNext(photoPost.blog_name);
         holder.onPhotosNext(photoPost.photos);
         loadAvatar(holder, photoPost);
     }
 
-    private void loadAvatar(final ViewHolder holder, final DashboardPhotoResponse.ResponseEntity.PostsEntity photoPost) {
+    private void loadAvatar(final ViewHolder holder, final DashboardResponse.ResponseEntity.PostsEntity photoPost) {
         AvatarModel.getInstance().get(photoPost.blog_name)
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -85,8 +86,8 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
             draweeAvatar.setImageURI(avatarUri);
         }
 
-        public void onPhotosNext(List<DashboardPhotoResponse.ResponseEntity.PostsEntity.PhotosEntity> photos) {
-            DashboardPhotoResponse.ResponseEntity.PostsEntity.PhotosEntity photo = photos.get(0);
+        public void onPhotosNext(List<Post> photos) {
+            DashboardResponse.ResponseEntity.PostsEntity.PhotosEntity photo = photos.get(0);
 
             float aspectRatio = (float) photo.original_size.height / photo.original_size.width;
             draweeImage.setAspectRatio(aspectRatio);

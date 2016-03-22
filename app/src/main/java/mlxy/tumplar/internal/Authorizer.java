@@ -1,4 +1,4 @@
-package mlxy.tumplar.tumblr;
+package mlxy.tumplar.internal;
 
 import android.support.annotation.NonNull;
 

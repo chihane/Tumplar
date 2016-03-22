@@ -1,4 +1,4 @@
-package mlxy.tumplar.interceptor;
+package mlxy.tumplar.internal.interceptor;
 
 import com.google.api.client.auth.oauth.OAuthHmacSigner;
 import com.google.api.client.auth.oauth.OAuthParameters;

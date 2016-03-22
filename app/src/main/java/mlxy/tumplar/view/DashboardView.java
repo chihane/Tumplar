@@ -2,11 +2,11 @@ package mlxy.tumplar.view;
 
 import java.util.List;
 
-import mlxy.tumplar.entity.response.DashboardPhotoResponse;
+import mlxy.tumplar.entity.Post;
 
 public interface DashboardView {
 
-    void onPostsNext(List<DashboardPhotoResponse.ResponseEntity.PostsEntity> posts);
+    void onPostsNext(List<Post> posts);
 
     void onError(Throwable error);
 

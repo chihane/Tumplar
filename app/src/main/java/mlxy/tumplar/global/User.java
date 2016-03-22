@@ -2,7 +2,6 @@ package mlxy.tumplar.global;
 
 import android.text.TextUtils;
 
-import mlxy.tumplar.tumblr.TumblrClient;
 import mlxy.utils.Prefs;
 
 public class User {

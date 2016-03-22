@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import mlxy.tumplar.entity.response.DashboardPhotoResponse;
+import mlxy.tumplar.entity.Post;
+import mlxy.tumplar.entity.response.DashboardResponse;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DashboardView;
@@ -16,7 +17,7 @@ public class DashboardPresenter implements Presentable<DashboardView> {
 
     private DashboardView view;
 
-    private List<DashboardPhotoResponse.ResponseEntity.PostsEntity> data;
+    private List<Post> data;
     private Throwable error;
 
     public DashboardPresenter() {
@@ -29,9 +30,9 @@ public class DashboardPresenter implements Presentable<DashboardView> {
         error = null;
 
         model.dashboard()
-                .subscribe(new Action1<DashboardPhotoResponse>() {
+                .subscribe(new Action1<DashboardResponse>() {
                     @Override
-                    public void call(DashboardPhotoResponse response) {
+                    public void call(DashboardResponse response) {
                         data = response.response.posts;
                         publish();
                     }

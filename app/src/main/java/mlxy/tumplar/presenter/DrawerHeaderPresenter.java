@@ -6,7 +6,7 @@ import com.tumblr.jumblr.types.Blog;
 
 import mlxy.tumplar.global.User;
 import mlxy.tumplar.model.AvatarModel;
-import mlxy.tumplar.tumblr.TumblrClient;
+import mlxy.tumplar.global.TumblrClient;
 import mlxy.tumplar.view.DrawerHeaderView;
 import rx.Observable;
 import rx.Subscriber;

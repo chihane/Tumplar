@@ -1,4 +1,4 @@
-package mlxy.tumplar.tumblr;
+package mlxy.tumplar.global;
 
 import com.tumblr.jumblr.types.User;
 

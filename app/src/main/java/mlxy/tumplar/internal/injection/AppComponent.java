@@ -1,11 +1,10 @@
-package mlxy.tumplar.injection;
+package mlxy.tumplar.internal.injection;
 
 import android.content.Context;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import dagger.Provides;
 import mlxy.tumplar.presenter.DashboardPresenter;
 
 @Singleton

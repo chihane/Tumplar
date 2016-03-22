@@ -1,4 +1,4 @@
-package mlxy.tumplar.interceptor;
+package mlxy.tumplar.internal.interceptor;
 
 import com.orhanobut.logger.Logger;
 import com.squareup.okhttp.Interceptor;

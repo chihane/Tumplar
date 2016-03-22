@@ -3,11 +3,10 @@ package mlxy.tumplar.global;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.Logger;
 
-import mlxy.tumplar.injection.ApiModule;
-import mlxy.tumplar.injection.AppComponent;
-import mlxy.tumplar.injection.AppModule;
-import mlxy.tumplar.injection.DaggerAppComponent;
-import mlxy.tumplar.tumblr.TumblrClient;
+import mlxy.tumplar.internal.injection.ApiModule;
+import mlxy.tumplar.internal.injection.AppComponent;
+import mlxy.tumplar.internal.injection.AppModule;
+import mlxy.tumplar.internal.injection.DaggerAppComponent;
 
 public class App extends android.app.Application {
     private static final String LOG_TAG = "chihane";
