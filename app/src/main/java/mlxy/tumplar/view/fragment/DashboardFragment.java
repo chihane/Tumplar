@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.entity.Post;
+import mlxy.tumplar.entity.PhotoPost;
 import mlxy.tumplar.presenter.DashboardPresenter;
 import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;
@@ -58,7 +58,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     }
 
     @Override
-    public void onPostsNext(List<Post> posts) {
+    public void onPostsNext(List<PhotoPost> posts) {
         adapter.setData(posts);
     }
 

@@ -3,6 +3,7 @@ package mlxy.tumplar.internal.injection;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -12,7 +13,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import mlxy.tumplar.entity.Post;
 import mlxy.tumplar.global.Apis;
+import mlxy.tumplar.internal.PostDeserializer;
 import mlxy.tumplar.internal.interceptor.AuthHeaderInterceptor;
 import mlxy.tumplar.internal.interceptor.LoggingInterceptor;
 import retrofit.GsonConverterFactory;
@@ -57,6 +60,8 @@ public class AppModule {
     @Provides
     @Singleton
     Gson provideGson() {
-        return new Gson();
+        return new GsonBuilder()
+                .registerTypeAdapter(Post.class, new PostDeserializer())
+                .create();
     }
 }
