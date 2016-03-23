@@ -11,14 +11,14 @@ import mlxy.tumplar.view.DashboardView;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
-public class DashboardPresenter implements Presentable<DashboardView> {
+public class DashboardPresenter {
     @Inject
     UserModel model;
 
     private DashboardView view;
 
     public DashboardPresenter() {
-        App.component.inject(this);
+        App.graph.inject(this);
         loadPosts(0);
     }
 
@@ -29,6 +29,7 @@ public class DashboardPresenter implements Presentable<DashboardView> {
                     public void call(List<PhotoPost> photoPosts) {
                         if (view != null) {
                             view.onPostsNext(photoPosts);
+                            view.hideProgressIfShown();
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -36,25 +37,13 @@ public class DashboardPresenter implements Presentable<DashboardView> {
                     public void call(Throwable throwable) {
                         if (view != null) {
                             view.onError(throwable);
-                        }
-                    }
-                }, new Action0() {
-                    @Override
-                    public void call() {
-                        if (view != null) {
                             view.hideProgressIfShown();
                         }
                     }
                 });
     }
 
-    @Override
     public void onTakeView(DashboardView view) {
         this.view = view;
-    }
-
-    @Override
-    public void publish() {
-
     }
 }

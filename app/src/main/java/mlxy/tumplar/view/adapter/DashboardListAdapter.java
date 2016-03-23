@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import mlxy.tumplar.R;
 import mlxy.tumplar.entity.Photo;
 import mlxy.tumplar.entity.PhotoPost;
+import mlxy.tumplar.global.App;
 import mlxy.tumplar.model.AvatarModel;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -25,6 +29,15 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     private OnLoadMoreListener listener;
 
     private List<PhotoPost> data;
+
+    public DashboardListAdapter() {
+        App.graph.inject(this);
+    }
+
+    public void setData(List<PhotoPost> data) {
+        this.data = null;
+        appendData(data);
+    }
 
     public void appendData(List<PhotoPost> data) {
         if (data == null) return;
@@ -93,7 +106,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        // eat it
+                        Logger.e(throwable, "dashboard");
                     }
                 });
     }

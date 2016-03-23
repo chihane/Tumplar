@@ -11,6 +11,10 @@ public class LoggingInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
+
+        String url = response.request().httpUrl().toString();
+        Logger.d(url);
+
         final String responseString = new String(response.body().bytes());
         Logger.json(responseString);
 

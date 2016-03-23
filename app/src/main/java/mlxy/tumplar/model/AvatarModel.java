@@ -8,7 +8,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+
+import mlxy.tumplar.entity.BlogAvatarResponse;
+import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.TumblrClient;
+import mlxy.tumplar.model.service.BlogService;
+import mlxy.tumplar.model.service.UserService;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,10 +28,14 @@ public class AvatarModel {
         private static final AvatarModel instance = new AvatarModel();
     }
 
+    @Inject
+    BlogService service;
+
     private static Map<String, Uri> cache;
     private static Set<String> tasks;
 
     private AvatarModel() {
+        App.graph.inject(this);
         cache = new ConcurrentHashMap<>();
         tasks = Collections.synchronizedSet(new LinkedHashSet<String>());
     }
@@ -54,29 +64,28 @@ public class AvatarModel {
             return Observable.empty();
         }
 
-        return Observable.create(new Observable.OnSubscribe<Uri>() {
-            @Override
-            public void call(Subscriber<? super Uri> subscriber) {
-                String url = TumblrClient.blogAvatar(blogName);
-                subscriber.onNext(Uri.parse(url));
-                subscriber.onCompleted();
-            }
-        }).doOnNext(new Action1<Uri>() {
-            @Override
-            public void call(Uri uri) {
-                cache.put(blogName, uri);
-            }
-        }).doOnSubscribe(new Action0() {
-            @Override
-            public void call() {
-                putTask(blogName);
-            }
-        }).doOnTerminate(new Action0() {
-            @Override
-            public void call() {
-                removeTask(blogName);
-            }
-        });
+        return service.avatar(blogName)
+                .map(new Func1<String, Uri>() {
+                    @Override
+                    public Uri call(String url) {
+                        return Uri.parse(url);
+                    }
+                }).doOnNext(new Action1<Uri>() {
+                    @Override
+                    public void call(Uri uri) {
+                        cache.put(blogName, uri);
+                    }
+                }).doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        putTask(blogName);
+                    }
+                }).doOnTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        removeTask(blogName);
+                    }
+                });
     }
 
     private Observable<Uri> fromCache(final String blogName) {

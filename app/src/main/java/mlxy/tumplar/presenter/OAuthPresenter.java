@@ -18,7 +18,7 @@ import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class OAuthPresenter implements Presentable<OAuthView> {
+public class OAuthPresenter {
     private static String callbackUrl = App.component.context().getString(R.string.oauth_callback_scheme) + "://" + App.component.context().getString(R.string.oauth_callback_host);
 
     enum State { IDLE, AUTHORIZING, AUTHORIZED, ACCESSING_TOKEN, TOKEN_ACCESSED, ERROR }
@@ -171,13 +171,11 @@ public class OAuthPresenter implements Presentable<OAuthView> {
                 });
     }
 
-    @Override
     public void onTakeView(OAuthView view) {
         this.view = view;
         publish();
     }
 
-    @Override
     public void publish() {
         if (view != null) {
             switch (state) {

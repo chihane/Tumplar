@@ -16,6 +16,7 @@ import dagger.Provides;
 import mlxy.tumplar.entity.Post;
 import mlxy.tumplar.global.Apis;
 import mlxy.tumplar.internal.PostDeserializer;
+import mlxy.tumplar.internal.StringConverterFactory;
 import mlxy.tumplar.internal.interceptor.AuthHeaderInterceptor;
 import mlxy.tumplar.internal.interceptor.LoggingInterceptor;
 import retrofit.GsonConverterFactory;
@@ -43,6 +44,7 @@ public class AppModule {
                 .baseUrl(Apis.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(StringConverterFactory.create())
                 .client(client)
                 .build();
     }

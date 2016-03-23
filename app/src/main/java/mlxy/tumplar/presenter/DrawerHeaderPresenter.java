@@ -4,6 +4,9 @@ import android.net.Uri;
 
 import com.tumblr.jumblr.types.Blog;
 
+import javax.inject.Inject;
+
+import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.User;
 import mlxy.tumplar.model.AvatarModel;
 import mlxy.tumplar.global.TumblrClient;
@@ -15,7 +18,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
+public class DrawerHeaderPresenter {
     private DrawerHeaderView view;
 
     private Uri avatarUri;
@@ -81,13 +84,11 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
                 });
     }
 
-    @Override
     public void onTakeView(DrawerHeaderView view) {
         this.view = view;
         publish();
     }
 
-    @Override
     public void publish() {
         if (view != null) {
             if (User.hasLoggedIn && avatarUri != null) {
@@ -99,8 +100,8 @@ public class DrawerHeaderPresenter implements Presentable<DrawerHeaderView> {
     }
 
     public void onUserAvatarClicked() {
-        boolean hasLogedIn = User.hasLoggedIn;
-        if (!hasLogedIn) {
+        boolean hasLoggedIn = User.hasLoggedIn;
+        if (!hasLoggedIn) {
             view.goLogin();
         } else {
             view.showLogout();
