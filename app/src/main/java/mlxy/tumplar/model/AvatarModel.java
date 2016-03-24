@@ -2,6 +2,8 @@ package mlxy.tumplar.model;
 
 import android.net.Uri;
 
+import com.squareup.okhttp.HttpUrl;
+
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -10,11 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
 
-import mlxy.tumplar.entity.BlogAvatarResponse;
 import mlxy.tumplar.global.App;
-import mlxy.tumplar.global.TumblrClient;
 import mlxy.tumplar.model.service.BlogService;
-import mlxy.tumplar.model.service.UserService;
+import retrofit.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -65,10 +65,11 @@ public class AvatarModel {
         }
 
         return service.avatar(blogName)
-                .map(new Func1<String, Uri>() {
+                .flatMap(new Func1<Response, Observable<Uri>>() {
                     @Override
-                    public Uri call(String url) {
-                        return Uri.parse(url);
+                    public Observable<Uri> call(Response response) {
+                        HttpUrl avatarUrl = response.raw().request().httpUrl();
+                        return Observable.just(Uri.parse(avatarUrl.toString()));
                     }
                 }).doOnNext(new Action1<Uri>() {
                     @Override

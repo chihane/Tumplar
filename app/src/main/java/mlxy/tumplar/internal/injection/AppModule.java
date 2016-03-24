@@ -43,8 +43,8 @@ public class AppModule {
         return new Retrofit.Builder()
                 .baseUrl(Apis.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addConverterFactory(StringConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
     }

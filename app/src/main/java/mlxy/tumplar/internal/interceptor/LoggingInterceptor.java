@@ -8,15 +8,21 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 
 public class LoggingInterceptor implements Interceptor {
+    public static final boolean ENABLED = false;
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
 
         String url = response.request().httpUrl().toString();
-        Logger.d(url);
+
+        if (ENABLED) {
+            Logger.d(url);
+        }
 
         final String responseString = new String(response.body().bytes());
-        Logger.json(responseString);
+        if (ENABLED) {
+            Logger.json(responseString);
+        }
 
         return response.newBuilder()
                 .body(ResponseBody.create(response.body().contentType(), responseString))
