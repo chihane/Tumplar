@@ -6,7 +6,7 @@ import retrofit.http.GET;
 import retrofit.http.Path;
 import rx.Observable;
 
-public interface BlogService {
+public interface AvatarService {
     @GET(Apis.BLOG_AVATAR)
     Observable<Response<String>> avatar(@Path("blog") String blog);
 

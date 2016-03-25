@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import mlxy.tumplar.model.service.BlogService;
+import mlxy.tumplar.model.service.AvatarService;
 import mlxy.tumplar.model.service.UserService;
 import retrofit.Retrofit;
 
@@ -18,7 +18,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    BlogService provideBlogService(Retrofit retrofit) {
-        return retrofit.create(BlogService.class);
+    AvatarService provideBlogService(Retrofit retrofit) {
+        return retrofit.create(AvatarService.class);
     }
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 
 import mlxy.tumplar.global.App;
-import mlxy.tumplar.model.service.BlogService;
+import mlxy.tumplar.model.service.AvatarService;
 import retrofit.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -29,7 +29,7 @@ public class AvatarModel {
     }
 
     @Inject
-    BlogService service;
+    AvatarService service;
 
     private static Map<String, Uri> cache;
     private static Set<String> tasks;
