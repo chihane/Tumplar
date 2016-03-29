@@ -1,28 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageViewDrawerHeaderBackground"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/drawer_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/layout_content"
+        android:layout_alignEnd="@+id/layout_content"
+        android:layout_alignLeft="@+id/layout_content"
+        android:layout_alignRight="@+id/layout_content"
+        android:layout_alignStart="@+id/layout_content"
+        android:layout_alignTop="@+id/layout_content"
         android:contentDescription="@string/drawer_header_background_content_description"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_drawer_header" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/draweeAvatar"
-        android:layout_width="@dimen/drawer_avatar"
-        android:layout_height="@dimen/drawer_avatar"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/item_padding"
-        android:layout_marginStart="@dimen/item_padding"
-        app:placeholderImage="@drawable/default_avatar"
-        app:placeholderImageScaleType="centerInside"
-        app:roundingBorderWidth="1dp"
-        app:roundingBorderColor="@android:color/white"
-        app:backgroundImage="@android:color/white"
-        app:roundAsCircle="true" />
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/draweeAvatar"
+            android:layout_width="@dimen/drawer_avatar"
+            android:layout_height="@dimen/drawer_avatar"
+            android:layout_marginLeft="@dimen/item_padding"
+            android:layout_marginStart="@dimen/item_padding"
+            android:layout_marginTop="48dp"
+            app:backgroundImage="@android:color/white"
+            app:placeholderImage="@drawable/default_avatar"
+            app:placeholderImageScaleType="centerInside"
+            app:roundAsCircle="true"
+            app:roundingBorderColor="@android:color/white"
+            app:roundingBorderWidth="1dp" />
+
+        <TextView
+            android:id="@+id/textViewUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_padding"
+            android:layout_marginLeft="@dimen/item_padding"
+            android:layout_marginStart="@dimen/item_padding"
+            android:layout_marginTop="@dimen/item_padding"
+            android:text="@string/not_logged_in"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </RelativeLayout>

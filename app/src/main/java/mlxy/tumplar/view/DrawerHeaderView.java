@@ -8,8 +8,10 @@ public interface DrawerHeaderView {
 
     void displayAvatar(Uri avatarUri);
     void displayDefaultAvatar();
+    void setUsername(String name);
 
     void showError(Throwable e);
 
     void onDrawerOpened();
+
 }

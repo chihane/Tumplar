@@ -12,6 +12,7 @@
     <string name="close_drawer">Close drawer</string>
 
     <string name="title_login">Login</string>
+    <string name="not_logged_in">not logged in</string>
 
     <string name="oauth_callback_scheme">oauth_callback</string>
     <string name="oauth_callback_host">callback</string>

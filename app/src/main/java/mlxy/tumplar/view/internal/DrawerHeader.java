@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -23,8 +24,8 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
     private DrawerLayout drawerLayout;
 
     private View headerView;
-    private ImageView imageViewDrawerHeaderBackground;
     private SimpleDraweeView draweeAvatar;
+    private TextView textViewUsername;
 
     private DrawerHeaderPresenter presenter;
 
@@ -41,8 +42,8 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
     }
 
     private void initView() {
-        imageViewDrawerHeaderBackground = (ImageView) headerView.findViewById(R.id.imageViewDrawerHeaderBackground);
         draweeAvatar = (SimpleDraweeView) headerView.findViewById(R.id.draweeAvatar);
+        textViewUsername = (TextView) headerView.findViewById(R.id.textViewUsername);
 
         draweeAvatar.setOnClickListener(this);
     }
@@ -91,6 +92,13 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
     @Override
     public void displayDefaultAvatar() {
         draweeAvatar.setImageURI(null);
+    }
+
+    @Override
+    public void setUsername(String name) {
+        if (name != null) {
+            textViewUsername.setText(name);
+        }
     }
 
     @Override

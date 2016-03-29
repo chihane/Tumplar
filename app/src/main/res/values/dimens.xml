@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="drawer_header">160dp</dimen>
     <dimen name="drawer_avatar">64dp</dimen>
 
     <dimen name="item_padding">16dp</dimen>

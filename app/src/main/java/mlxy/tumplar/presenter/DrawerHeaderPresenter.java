@@ -95,6 +95,7 @@ public class DrawerHeaderPresenter {
         if (view != null) {
             if (User.hasLoggedIn && avatarUri != null) {
                 view.displayAvatar(avatarUri);
+                view.setUsername(User.info.name);
             } else {
                 view.displayDefaultAvatar();
             }
