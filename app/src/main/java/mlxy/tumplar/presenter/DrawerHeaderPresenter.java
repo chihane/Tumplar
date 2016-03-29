@@ -2,28 +2,30 @@ package mlxy.tumplar.presenter;
 
 import android.net.Uri;
 
-import com.tumblr.jumblr.types.Blog;
-
 import javax.inject.Inject;
 
+import mlxy.tumplar.entity.Blog;
+import mlxy.tumplar.entity.response.UserInfoResponse;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.User;
 import mlxy.tumplar.model.AvatarModel;
-import mlxy.tumplar.global.TumblrClient;
+import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DrawerHeaderView;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class DrawerHeaderPresenter {
+    @Inject
+    UserModel userModel;
     private DrawerHeaderView view;
 
     private Uri avatarUri;
 
     public DrawerHeaderPresenter() {
+        App.graph.inject(this);
         refresh();
     }
 
@@ -38,34 +40,34 @@ public class DrawerHeaderPresenter {
 
     private void displayAvatar() {
         Observable.just(User.info)
-                .concatWith(Observable.create(new Observable.OnSubscribe<com.tumblr.jumblr.types.User>() {
+                .concatWith(userModel.me()
+                        .map(new Func1<UserInfoResponse, mlxy.tumplar.entity.User>() {
+                            @Override
+                            public mlxy.tumplar.entity.User call(UserInfoResponse userInfoResponse) {
+                                return userInfoResponse.response.user;
+                            }
+                        }).doOnNext(new Action1<mlxy.tumplar.entity.User>() {
+                            @Override
+                            public void call(mlxy.tumplar.entity.User user) {
+                                User.info = user;
+                            }
+                        }))
+                .filter(new Func1<mlxy.tumplar.entity.User, Boolean>() {
                     @Override
-                    public void call(Subscriber<? super com.tumblr.jumblr.types.User> subscriber) {
-                        subscriber.onNext(TumblrClient.userInfo());
-                        subscriber.onCompleted();
-                    }
-                }).doOnNext(new Action1<com.tumblr.jumblr.types.User>() {
-                    @Override
-                    public void call(com.tumblr.jumblr.types.User user) {
-                        User.info = user;
-                    }
-                }))
-                .filter(new Func1<com.tumblr.jumblr.types.User, Boolean>() {
-                    @Override
-                    public Boolean call(com.tumblr.jumblr.types.User user) {
+                    public Boolean call(mlxy.tumplar.entity.User user) {
                         return user != null;
                     }
                 })
-                .map(new Func1<com.tumblr.jumblr.types.User, Blog>() {
+                .map(new Func1<mlxy.tumplar.entity.User, Blog>() {
                     @Override
-                    public Blog call(com.tumblr.jumblr.types.User user) {
-                        return user.getBlogs().get(0);
+                    public Blog call(mlxy.tumplar.entity.User user) {
+                        return user.blogs.get(0);
                     }
                 })
                 .flatMap(new Func1<Blog, Observable<Uri>>() {
                     @Override
                     public Observable<Uri> call(Blog blog) {
-                        return AvatarModel.getInstance().get(blog.getName());
+                        return AvatarModel.getInstance().get(blog.name);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())

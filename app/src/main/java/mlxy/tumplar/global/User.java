@@ -6,7 +6,7 @@ import mlxy.utils.Prefs;
 
 public class User {
     public static volatile boolean hasLoggedIn = false;
-    public static volatile com.tumblr.jumblr.types.User info;
+    public static volatile mlxy.tumplar.entity.User info;
 
     public static volatile String access_token;
     public static volatile String access_token_secret;
@@ -22,16 +22,12 @@ public class User {
         access_token = token;
         access_token_secret = tokenSecret;
 
-        TumblrClient.setToken(token, tokenSecret);
-
         hasLoggedIn = true;
     }
 
     public static void logout() {
         access_token = null;
         access_token_secret = null;
-
-        TumblrClient.setToken("", "");
 
         Prefs.remove(App.component.context(), Constants.KEY_TOKEN);
         Prefs.remove(App.component.context(), Constants.KEY_TOKEN_SECRET);

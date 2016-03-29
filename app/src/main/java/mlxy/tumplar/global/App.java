@@ -21,7 +21,6 @@ public class App extends android.app.Application {
         component = AppComponent.Initializer.init(this);
         graph = component;
 
-        TumblrClient.initialize();
         User.tryLogin();
     }
 }
