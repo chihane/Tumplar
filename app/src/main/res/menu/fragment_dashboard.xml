@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_list"
+        android:icon="@mipmap/ic_view_list_white_24dp"
+        android:orderInCategory="10"
+        android:title="@string/list"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_staggered"
+        android:icon="@mipmap/ic_dashboard_white_24dp"
+        android:orderInCategory="11"
+        android:title="@string/list"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_grid"
+        android:icon="@mipmap/ic_view_module_white_24dp"
+        android:orderInCategory="12"
+        android:title="@string/list"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_download"
+        android:icon="@mipmap/ic_file_download_white_24dp"
+        android:orderInCategory="21"
+        android:title="@string/download"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -96,9 +96,7 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
 
     @Override
     public void setUsername(String name) {
-        if (name != null) {
-            textViewUsername.setText(name);
-        }
+        textViewUsername.setText(name);
     }
 
     @Override

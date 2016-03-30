@@ -16,10 +16,4 @@ public class MainActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.navigation, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 }

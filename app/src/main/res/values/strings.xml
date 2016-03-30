@@ -26,4 +26,7 @@
     <string name="logout">LOGOUT</string>
     <string name="cancel">CANCEL</string>
     <string name="error_auth_failed">Authorization failed</string>
+
+    <string name="download">download</string>
+    <string name="list">list</string>
 </resources>
