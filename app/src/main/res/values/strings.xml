@@ -20,13 +20,28 @@
     <string name="msg_authorizing">Authorizing...</string>
     <string name="msg_loading">Loading...</string>
     <string name="msg_accessing_token">Accessing token...</string>
-    <string name="retry">RETRY</string>
+    <string name="retry">Retry</string>
     <string name="msg_token_accessed">Login succeeded</string>
     <string name="msg_confirm_logout">Are you sure to logout?</string>
-    <string name="logout">LOGOUT</string>
-    <string name="cancel">CANCEL</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">@android:string/cancel</string>
     <string name="error_auth_failed">Authorization failed</string>
 
     <string name="download">download</string>
     <string name="list">list</string>
+
+    <string name="changelog">Changelog</string>
+    <string name="feedback">Feedback</string>
+    <string name="license">License</string>
+    <string name="version">Version</string>
+    <string name="pref_key_changelog">key_changelog</string>
+    <string name="pref_key_feedback">key_feedback</string>
+    <string name="pref_key_license">key_license</string>
+    <string name="pref_key_version">key_version</string>
+
+    <string name="email_chihane">chihane@yeah.net</string>
+    <string name="mailto_chihane">mailto:chihane@yeah.net</string>
+    <string name="subject_feedback">Feedback about Tumplar</string>
+
+    <string name="close">Close</string>
 </resources>

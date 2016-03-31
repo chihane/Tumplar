@@ -1,5 +1,6 @@
 package mlxy.tumplar.view.internal;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import mlxy.tumplar.R;
+import mlxy.tumplar.view.activity.HelpActivity;
 import mlxy.tumplar.view.fragment.DashboardFragment;
 import mlxy.tumplar.view.fragment.HomeFragment;
 
@@ -75,6 +77,8 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
     }
 
     private void openHelp() {
+        Intent intent = new Intent(fragmentActivity, HelpActivity.class);
+        fragmentActivity.startActivity(intent);
     }
 
     private void closeDrawer() {

@@ -26,7 +26,7 @@ android {
     }
 }
 
-ext.support_version = '23.1.1'
+ext.support_version = '23.2.1'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -59,4 +59,6 @@ dependencies {
 
     compile 'mlxy.utils:utils:1.0.5'
     compile 'com.github.orhanobut:logger:1.12'
+    compile 'com.github.gabrielemariotti.changeloglib:changelog:2.0.1-SNAPSHOT'
+    compile 'de.psdev.licensesdialog:licensesdialog:1.8.0'
 }

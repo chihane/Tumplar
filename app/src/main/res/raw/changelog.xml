@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<changelog bulletedList="true">
+    <changelogversion versionName="0.1" changeDate="Mar 13, 2016">
+        <changelogtext>Initial release</changelogtext>
+        <changelogtext>[b]Feature:[/b] Dashboard browse and preload for offline use</changelogtext>
+    </changelogversion>
+</changelog>
