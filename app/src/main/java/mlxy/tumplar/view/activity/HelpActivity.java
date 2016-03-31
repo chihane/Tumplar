@@ -15,6 +15,7 @@ public class HelpActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.help);
         }
 
         getFragmentManager().beginTransaction().replace(R.id.content, new HelpFragment()).commit();
