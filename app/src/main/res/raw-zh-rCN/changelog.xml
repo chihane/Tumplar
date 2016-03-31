@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<changelog bulletedList="true">
+    <changelogversion versionName="0.1" changeDate="2016年3月13日">
+        <changelogtext>首次发布</changelogtext>
+        <changelogtext>[b]特性:[/b] Dashboard 预缓存及离线浏览</changelogtext>
+    </changelogversion>
+</changelog>

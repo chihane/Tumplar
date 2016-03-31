@@ -56,6 +56,7 @@ public class HelpFragment extends PreferenceFragment {
         if (licensesDialog == null) {
             licensesDialog = new LicensesDialog.Builder(getActivity())
                     .setNotices(R.raw.licenses)
+                    .setTitle(R.string.license)
                     .setThemeResourceId(R.style.AppTheme)
                     .build();
         }

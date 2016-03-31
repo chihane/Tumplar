@@ -14,8 +14,8 @@
     <string name="title_login">Login</string>
     <string name="not_logged_in">not logged in</string>
 
-    <string name="oauth_callback_scheme">oauth_callback</string>
-    <string name="oauth_callback_host">callback</string>
+    <string name="oauth_callback_scheme" translatable="false">oauth_callback</string>
+    <string name="oauth_callback_host" translatable="false">callback</string>
     <string name="error_unknown">Unknown error occured</string>
     <string name="msg_authorizing">Authorizing...</string>
     <string name="msg_loading">Loading...</string>
@@ -34,13 +34,13 @@
     <string name="feedback">Feedback</string>
     <string name="license">License</string>
     <string name="version">Version</string>
-    <string name="pref_key_changelog">key_changelog</string>
-    <string name="pref_key_feedback">key_feedback</string>
-    <string name="pref_key_license">key_license</string>
-    <string name="pref_key_version">key_version</string>
+    <string name="pref_key_changelog" translatable="false">key_changelog</string>
+    <string name="pref_key_feedback" translatable="false">key_feedback</string>
+    <string name="pref_key_license" translatable="false">key_license</string>
+    <string name="pref_key_version" translatable="false">key_version</string>
 
-    <string name="email_chihane">chihane@yeah.net</string>
-    <string name="mailto_chihane">mailto:chihane@yeah.net</string>
+    <string name="email_chihane" translatable="false">chihane@yeah.net</string>
+    <string name="mailto_chihane" translatable="false">mailto:chihane@yeah.net</string>
     <string name="subject_feedback">Feedback about Tumplar</string>
 
     <string name="close">Close</string>
