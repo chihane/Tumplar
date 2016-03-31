@@ -46,7 +46,10 @@ public class HelpFragment extends PreferenceFragment {
         if (changelogDialog == null) {
             changelogDialog = new ChangelogDialogFragment();
         }
-        changelogDialog.show(getFragmentManager(), ChangelogDialogFragment.TAG);
+
+        if (!changelogDialog.isAdded()) {
+            changelogDialog.show(getFragmentManager(), ChangelogDialogFragment.TAG);
+        }
     }
 
     private void showLicense() {
