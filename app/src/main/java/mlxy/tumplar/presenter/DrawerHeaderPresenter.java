@@ -104,7 +104,7 @@ public class DrawerHeaderPresenter {
         }
     }
 
-    public void onUserAvatarClicked() {
+    public void loginOrLogout() {
         boolean hasLoggedIn = User.hasLoggedIn;
         if (!hasLoggedIn) {
             view.goLogin();

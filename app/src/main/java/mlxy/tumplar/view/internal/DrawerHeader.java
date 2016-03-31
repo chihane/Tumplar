@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -46,12 +45,16 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
         textViewUsername = (TextView) headerView.findViewById(R.id.textViewUsername);
 
         draweeAvatar.setOnClickListener(this);
+        textViewUsername.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.draweeAvatar) {
-            presenter.onUserAvatarClicked();
+        switch (v.getId()) {
+            case R.id.draweeAvatar:
+            case R.id.textViewUsername:
+                presenter.loginOrLogout();
+                break;
         }
     }
 

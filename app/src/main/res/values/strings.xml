@@ -24,7 +24,7 @@
     <string name="msg_token_accessed">Login succeeded</string>
     <string name="msg_confirm_logout">Are you sure to logout?</string>
     <string name="logout">Logout</string>
-    <string name="cancel">@android:string/cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="error_auth_failed">Authorization failed</string>
 
     <string name="download">download</string>
