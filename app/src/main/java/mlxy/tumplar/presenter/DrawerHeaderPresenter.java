@@ -46,6 +46,7 @@ public class DrawerHeaderPresenter {
                             @Override
                             public void call(mlxy.tumplar.entity.User user) {
                                 User.info = user;
+                                publish();
                             }
                         }))
                 .filter(new Func1<mlxy.tumplar.entity.User, Boolean>() {
