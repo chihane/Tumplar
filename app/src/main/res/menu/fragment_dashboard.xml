@@ -14,7 +14,7 @@
         android:id="@+id/menu_staggered"
         android:icon="@mipmap/ic_dashboard_white_24dp"
         android:orderInCategory="11"
-        android:title="@string/list"
+        android:title="@string/flow"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
@@ -22,7 +22,7 @@
         android:id="@+id/menu_grid"
         android:icon="@mipmap/ic_view_module_white_24dp"
         android:orderInCategory="12"
-        android:title="@string/list"
+        android:title="@string/grid"
         android:visible="false"
         app:showAsAction="ifRoom" />
 

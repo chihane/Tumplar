@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tumplar</string>
     <string name="drawer_header_background_content_description">drawer header background</string>
@@ -29,6 +30,8 @@
 
     <string name="download">download</string>
     <string name="list">list</string>
+    <string name="flow">flow</string>
+    <string name="grid">grid</string>
 
     <string name="changelog">Changelog</string>
     <string name="feedback">Feedback</string>

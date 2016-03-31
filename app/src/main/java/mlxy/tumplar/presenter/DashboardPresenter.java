@@ -8,7 +8,6 @@ import mlxy.tumplar.entity.PhotoPost;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DashboardView;
-import rx.functions.Action0;
 import rx.functions.Action1;
 
 public class DashboardPresenter {

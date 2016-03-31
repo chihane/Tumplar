@@ -27,7 +27,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     private LayoutMode layoutMode = LayoutMode.LIST;
 
     private View view;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewPost;
     private DashboardPresenter presenter;
     private DashboardListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -50,11 +50,11 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
             }
         });
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        recyclerViewPost = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerViewPost.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         adapter = new DashboardListAdapter();
         adapter.setOnLoadMoreListener(this);
-        recyclerView.setAdapter(adapter);
+        recyclerViewPost.setAdapter(adapter);
 
         return view;
     }
@@ -103,7 +103,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.menu_list).setVisible(layoutMode == LayoutMode.LIST);
-        menu.findItem(R.id.menu_staggered).setVisible(layoutMode == LayoutMode.STAGGERED);
+        menu.findItem(R.id.menu_staggered).setVisible(layoutMode == LayoutMode.FLOW);
         menu.findItem(R.id.menu_grid).setVisible(layoutMode == LayoutMode.GRID);
     }
 
@@ -114,7 +114,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
                 break;
 
             case R.id.menu_list:
-                changeLayoutType(LayoutMode.STAGGERED);
+                changeLayoutType(LayoutMode.FLOW);
                 getActivity().invalidateOptionsMenu();
                 break;
 
@@ -135,18 +135,21 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         layoutMode = type;
         switch (type) {
             case LIST:
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                recyclerViewPost.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                adapter.setImageInSquare(false);
                 break;
-            case STAGGERED:
-                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            case FLOW:
+                recyclerViewPost.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                adapter.setImageInSquare(false);
                 break;
             case GRID:
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false));
+                recyclerViewPost.setLayoutManager(new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false));
+                adapter.setImageInSquare(true);
                 break;
         }
     }
 
     enum LayoutMode {
-        LIST, STAGGERED, GRID;
+        LIST, FLOW, GRID
     }
 }

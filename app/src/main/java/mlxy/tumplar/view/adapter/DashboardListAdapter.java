@@ -13,12 +13,9 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import mlxy.tumplar.R;
 import mlxy.tumplar.entity.Photo;
 import mlxy.tumplar.entity.PhotoPost;
-import mlxy.tumplar.global.App;
 import mlxy.tumplar.model.AvatarModel;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -29,10 +26,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     private OnLoadMoreListener listener;
 
     private List<PhotoPost> data;
-
-    public DashboardListAdapter() {
-        App.graph.inject(this);
-    }
+    private boolean setImageInSquare;
 
     public void setData(List<PhotoPost> data) {
         this.data = null;
@@ -54,6 +48,10 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
             data.clear();
             notifyItemRangeRemoved(0, data.size());
         }
+    }
+
+    public void setImageInSquare(boolean setImageInSquare) {
+        this.setImageInSquare = setImageInSquare;
     }
 
     @Override
@@ -134,8 +132,12 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         public void onPhotosNext(List<Photo> photos) {
             Photo photo = photos.get(0);
 
-            float aspectRatio = (float) photo.original_size.height / photo.original_size.width;
-            draweeImage.setAspectRatio(aspectRatio);
+            if (setImageInSquare) {
+                draweeImage.setAspectRatio(1);
+            } else {
+                float aspectRatio = (float) photo.original_size.height / photo.original_size.width;
+                draweeImage.setAspectRatio(aspectRatio);
+            }
             draweeImage.setImageURI(Uri.parse(photo.original_size.url));
         }
     }

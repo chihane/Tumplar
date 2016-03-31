@@ -29,7 +29,9 @@
     <string name="error_auth_failed">授权失败</string>
 
     <string name="download">下载</string>
-    <string name="list">列表</string>
+    <string name="list">列表式</string>
+    <string name="flow">流式</string>
+    <string name="grid">网格式</string>
 
     <string name="changelog">更新记录</string>
     <string name="feedback">反馈</string>
