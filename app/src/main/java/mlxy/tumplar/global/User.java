@@ -26,6 +26,8 @@ public class User {
     }
 
     public static void logout() {
+        info = null;
+
         access_token = null;
         access_token_secret = null;
 

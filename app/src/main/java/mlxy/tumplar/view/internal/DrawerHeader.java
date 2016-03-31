@@ -85,18 +85,22 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
     }
 
     @Override
-    public void displayAvatar(Uri avatarUri) {
+    public void showAvatar(Uri avatarUri) {
         draweeAvatar.setImageURI(avatarUri);
     }
 
     @Override
-    public void displayDefaultAvatar() {
+    public void showDefaultAvatar() {
         draweeAvatar.setImageURI(null);
     }
 
     @Override
     public void setUsername(String name) {
-        textViewUsername.setText(name);
+        if (name != null) {
+            textViewUsername.setText(name);
+        } else {
+            textViewUsername.setText(activity.getString(R.string.not_logged_in));
+        }
     }
 
     @Override
@@ -106,8 +110,8 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
 
     @Override
     public void onDrawerOpened() {
-//        if (presenter != null) {
-//            presenter.refresh();
-//        }
+        if (presenter != null) {
+            presenter.refresh();
+        }
     }
 }

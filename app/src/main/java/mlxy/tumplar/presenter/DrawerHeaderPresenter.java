@@ -30,15 +30,11 @@ public class DrawerHeaderPresenter {
     }
 
     public void refresh() {
-        if (!User.hasLoggedIn) {
-            publish();
-            return;
-        }
-
-        displayAvatar();
+        publish();
+        getAvatar();
     }
 
-    private void displayAvatar() {
+    private void getAvatar() {
         Observable.just(User.info)
                 .concatWith(userModel.me()
                         .map(new Func1<UserInfoResponse, mlxy.tumplar.entity.User>() {
@@ -93,11 +89,16 @@ public class DrawerHeaderPresenter {
 
     public void publish() {
         if (view != null) {
-            if (User.hasLoggedIn && avatarUri != null) {
-                view.displayAvatar(avatarUri);
-                view.setUsername(User.info.name);
+            if (User.hasLoggedIn) {
+                if (avatarUri != null) {
+                    view.showAvatar(avatarUri);
+                }
+                if (User.info != null) {
+                    view.setUsername(User.info.name);
+                }
             } else {
-                view.displayDefaultAvatar();
+                view.showDefaultAvatar();
+                view.setUsername(null);
             }
         }
     }

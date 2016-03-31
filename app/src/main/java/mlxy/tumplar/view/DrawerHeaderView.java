@@ -6,8 +6,8 @@ public interface DrawerHeaderView {
     void goLogin();
     void showLogout();
 
-    void displayAvatar(Uri avatarUri);
-    void displayDefaultAvatar();
+    void showAvatar(Uri avatarUri);
+    void showDefaultAvatar();
     void setUsername(String name);
 
     void showError(Throwable e);
