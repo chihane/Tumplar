@@ -45,17 +45,18 @@ public class AvatarModel {
     }
 
     public synchronized Observable<Uri> get(final String blogName) {
-        return fromCache(blogName)
-                .concatWith(fromNet(blogName))
-                .first(new Func1<Uri, Boolean>() {
-                    @Override
-                    public Boolean call(Uri uri) {
-                        return uri != null;
-                    }
-                })
-                .retry()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        return Observable.empty();
+//        return fromCache(blogName)
+//                .concatWith(fromNet(blogName))
+//                .first(new Func1<Uri, Boolean>() {
+//                    @Override
+//                    public Boolean call(Uri uri) {
+//                        return uri != null;
+//                    }
+//                })
+//                .retry()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private Observable<Uri> fromNet(final String blogName) {
