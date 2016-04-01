@@ -4,10 +4,7 @@ import android.net.Uri;
 
 import com.squareup.okhttp.HttpUrl;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
@@ -31,63 +28,48 @@ public class AvatarModel {
     @Inject
     AvatarService service;
 
-    private static Map<String, Uri> cache;
-    private static Set<String> tasks;
+    private static ConcurrentHashMap<String, Observable<Uri>> observableCache;
+    private static ConcurrentHashMap<String, Uri> cache;
 
     private AvatarModel() {
         App.graph.inject(this);
+        observableCache = new ConcurrentHashMap<>();
         cache = new ConcurrentHashMap<>();
-        tasks = Collections.synchronizedSet(new LinkedHashSet<String>());
     }
 
     public static AvatarModel getInstance() {
         return Instance.instance;
     }
 
-    public synchronized Observable<Uri> get(final String blogName) {
-        return Observable.empty();
-//        return fromCache(blogName)
-//                .concatWith(fromNet(blogName))
-//                .first(new Func1<Uri, Boolean>() {
-//                    @Override
-//                    public Boolean call(Uri uri) {
-//                        return uri != null;
-//                    }
-//                })
-//                .retry()
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    private Observable<Uri> fromNet(final String blogName) {
-        // Runs only one net-task at the same time.
-        if (tasks.contains(blogName)) {
-            return Observable.empty();
+    public Observable<Uri> get(final String blogName) {
+        Observable<Uri> cachedObservable = observableCache.get(blogName);
+        if (cachedObservable != null) {
+            return cachedObservable;
         }
 
-        return service.avatar(blogName)
-                .flatMap(new Func1<Response, Observable<Uri>>() {
+        Observable<Uri> uriObservable = Observable.concat(fromCache(blogName), fromNet(blogName))
+                .first(new Func1<Uri, Boolean>() {
                     @Override
-                    public Observable<Uri> call(Response response) {
-                        HttpUrl avatarUrl = response.raw().request().httpUrl();
-                        return Observable.just(Uri.parse(avatarUrl.toString()));
+                    public Boolean call(Uri uri) {
+                        return uri != null;
                     }
-                }).doOnNext(new Action1<Uri>() {
-                    @Override
-                    public void call(Uri uri) {
-                        cache.put(blogName, uri);
-                    }
-                }).doOnSubscribe(new Action0() {
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnTerminate(new Action0() {
                     @Override
                     public void call() {
-                        putTask(blogName);
-                    }
-                }).doOnTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        removeTask(blogName);
+                        observableCache.remove(blogName);
                     }
                 });
+
+        // XXX only cache task fromNet for better performance
+        Observable<Uri> doubleCheck = observableCache.putIfAbsent(blogName, uriObservable);
+        if (doubleCheck != null) {
+            return doubleCheck;
+        }
+
+        return uriObservable;
     }
 
     private Observable<Uri> fromCache(final String blogName) {
@@ -100,11 +82,19 @@ public class AvatarModel {
         });
     }
 
-    private void putTask(String blogName) {
-        tasks.add(blogName);
-    }
-
-    private void removeTask(String blogName) {
-        tasks.remove(blogName);
+    private Observable<Uri> fromNet(final String blogName) {
+        return service.avatar(blogName)
+                .flatMap(new Func1<Response, Observable<Uri>>() {
+                    @Override
+                    public Observable<Uri> call(Response response) {
+                        HttpUrl avatarUrl = response.raw().request().httpUrl();
+                        return Observable.just(Uri.parse(avatarUrl.toString()));
+                    }
+                }).doOnNext(new Action1<Uri>() {
+                    @Override
+                    public void call(Uri uri) {
+                        cache.putIfAbsent(blogName, uri);
+                    }
+                });
     }
 }
