@@ -71,8 +71,12 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     }
 
     @Override
-    public void onPostsNext(List<PhotoPost> posts) {
-        adapter.appendData(posts);
+    public void onPostsNext(List<PhotoPost> posts, boolean renew) {
+        if (renew) {
+            adapter.setData(posts);
+        } else {
+            adapter.appendData(posts);
+        }
     }
 
     @Override

@@ -7,7 +7,7 @@ import mlxy.tumplar.entity.Post;
 
 public interface DashboardView {
 
-    void onPostsNext(List<PhotoPost> posts);
+    void onPostsNext(List<PhotoPost> posts, boolean renew);
 
     void onError(Throwable error);
 

@@ -21,13 +21,13 @@ public class DashboardPresenter {
         loadPosts(0);
     }
 
-    public void loadPosts(int offset) {
+    public void loadPosts(final int offset) {
         model.dashboardPhoto(offset)
                 .subscribe(new Action1<List<PhotoPost>>() {
                     @Override
                     public void call(List<PhotoPost> photoPosts) {
                         if (view != null) {
-                            view.onPostsNext(photoPosts);
+                            view.onPostsNext(photoPosts, offset == 0);
                             view.hideProgressIfShown();
                         }
                     }

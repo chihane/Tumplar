@@ -16,6 +16,9 @@ import java.util.List;
 import mlxy.tumplar.R;
 import mlxy.tumplar.entity.Photo;
 import mlxy.tumplar.entity.PhotoPost;
+import mlxy.tumplar.entity.PhotoSize;
+import mlxy.tumplar.global.Settings;
+import mlxy.tumplar.global.settings.PreviewQuality;
 import mlxy.tumplar.model.AvatarModel;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -29,8 +32,8 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     private boolean setImageInSquare;
 
     public void setData(List<PhotoPost> data) {
-        this.data = null;
-        appendData(data);
+        this.data = data;
+        notifyDataSetChanged();
     }
 
     public void appendData(List<PhotoPost> data) {
@@ -132,13 +135,16 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         public void onPhotosNext(List<Photo> photos) {
             Photo photo = photos.get(0);
 
+            PreviewQuality previewQuality = Settings.getPreviewQuality();
+            PhotoSize photoSize = photo.getPhotoSizeByQuality(previewQuality);
+
             if (setImageInSquare) {
                 draweeImage.setAspectRatio(1);
             } else {
-                float aspectRatio = (float) photo.original_size.height / photo.original_size.width;
+                float aspectRatio = (float) photoSize.height / photoSize.width;
                 draweeImage.setAspectRatio(aspectRatio);
             }
-            draweeImage.setImageURI(Uri.parse(photo.original_size.url));
+            draweeImage.setImageURI(Uri.parse(photoSize.url));
         }
     }
 
