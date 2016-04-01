@@ -42,18 +42,16 @@ public class AvatarModel {
     }
 
     public Observable<Uri> get(final String blogName) {
+        if (cache.containsKey(blogName)) {
+            return fromCache(blogName);
+        }
         Observable<Uri> cachedObservable = observableCache.get(blogName);
         if (cachedObservable != null) {
             return cachedObservable;
         }
 
-        Observable<Uri> uriObservable = Observable.concat(fromCache(blogName), fromNet(blogName))
-                .first(new Func1<Uri, Boolean>() {
-                    @Override
-                    public Boolean call(Uri uri) {
-                        return uri != null;
-                    }
-                })
+        // XXX try something like Observable.cache(blogName)?
+        Observable<Uri> uriObservable =fromNet(blogName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(new Action0() {
@@ -63,7 +61,6 @@ public class AvatarModel {
                     }
                 });
 
-        // XXX only cache task fromNet for better performance
         Observable<Uri> doubleCheck = observableCache.putIfAbsent(blogName, uriObservable);
         if (doubleCheck != null) {
             return doubleCheck;
