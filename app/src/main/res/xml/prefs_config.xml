@@ -2,7 +2,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/download_capital">
         <ListPreference
-            android:defaultValue="2"
+            android:defaultValue="@string/value_normal"
+            android:entries="@array/pref_entries_avatar_quality"
+            android:entryValues="@array/pref_values_avatar_quality"
+            android:key="@string/pref_key_avatar_quality"
+            android:summary="%s"
+            android:title="@string/avatar_quality" />
+
+        <ListPreference
+            android:defaultValue="@string/value_medium_quality"
             android:entries="@array/pref_entries_preview_quality"
             android:entryValues="@array/pref_values_preview_quality"
             android:key="@string/pref_key_preview_quality"

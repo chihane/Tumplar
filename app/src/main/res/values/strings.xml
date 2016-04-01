@@ -42,6 +42,7 @@
     <string name="pref_key_license" translatable="false">key_license</string>
     <string name="pref_key_version" translatable="false">key_version</string>
 
+    <string name="pref_key_avatar_quality">pref_key_avatar_quality</string>
     <string name="pref_key_preview_quality">pref_key_preview_quality</string>
 
     <string name="email_chihane" translatable="false">chihane@yeah.net</string>
@@ -51,9 +52,26 @@
     <string name="close">Close</string>
 
     <string name="download_capital">Download</string>
+
+    <string name="avatar_quality">Avatar Quality</string>
+    <string name="tiny">16*16</string>
+    <string name="small">48*48</string>
+    <string name="normal">64*64</string>
+    <string name="large">128*128</string>
+    <string name="huge">512*512</string>
+    <string name="value_tiny">16</string>
+    <string name="value_small">48</string>
+    <string name="value_normal">64</string>
+    <string name="value_large">128</string>
+    <string name="value_huge">512</string>
+
     <string name="preview_quality">Preview Quality</string>
     <string name="original_quality">Original</string>
     <string name="high_quality">High</string>
     <string name="medium_quality">Medium</string>
     <string name="low_quality">Low</string>
+    <string name="value_original_quality">0</string>
+    <string name="value_high_quality">1</string>
+    <string name="value_medium_quality">2</string>
+    <string name="value_low_quality">3</string>
 </resources>

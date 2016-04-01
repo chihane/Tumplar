@@ -9,6 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 
 import mlxy.tumplar.global.App;
+import mlxy.tumplar.global.Settings;
+import mlxy.tumplar.global.settings.AvatarSize;
 import mlxy.tumplar.model.service.AvatarService;
 import retrofit.Response;
 import rx.Observable;
@@ -79,7 +81,8 @@ public class AvatarModel {
     }
 
     private Observable<Uri> fromNet(final String blogName) {
-        return service.avatar(blogName)
+        AvatarSize avatarSize = Settings.getAvatarQuality();
+        return service.avatar(blogName, avatarSize.getSize())
                 .flatMap(new Func1<Response, Observable<Uri>>() {
                     @Override
                     public Observable<Uri> call(Response response) {

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="pref_entries_avatar_quality">
+        <item>@string/tiny</item>
+        <item>@string/small</item>
+        <item>@string/normal</item>
+        <item>@string/large</item>
+        <item>@string/huge</item>
+    </string-array>
+
+    <string-array name="pref_values_avatar_quality">
+        <item>@string/value_tiny</item>
+        <item>@string/value_small</item>
+        <item>@string/value_normal</item>
+        <item>@string/value_large</item>
+        <item>@string/value_huge</item>
+    </string-array>
+
     <string-array name="pref_entries_preview_quality">
         <item>@string/original_quality</item>
         <item>@string/high_quality</item>
@@ -8,9 +24,10 @@
     </string-array>
 
     <string-array name="pref_values_preview_quality">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>@string/value_original_quality</item>
+        <item>@string/value_high_quality</item>
+        <item>@string/value_medium_quality</item>
+        <item>@string/value_low_quality</item>
     </string-array>
+
 </resources>
