@@ -24,13 +24,18 @@ import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;
 
 public class DashboardFragment extends BaseFragment implements DashboardView, SwipeRefreshLayout.OnRefreshListener, DashboardListAdapter.OnLoadMoreListener {
-    private LayoutMode layoutMode = LayoutMode.LIST;
-
     private View view;
-    private RecyclerView recyclerViewPost;
-    private DashboardPresenter presenter;
-    private DashboardListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private RecyclerView recyclerViewPost;
+    private DashboardListAdapter adapter;
+
+    private LayoutMode layoutMode = LayoutMode.LIST;
+    private LinearLayoutManager listLayoutManager;
+    private StaggeredGridLayoutManager flowLayoutManager;
+    private GridLayoutManager gridLayoutManager;
+
+    private DashboardPresenter presenter;
 
     public DashboardFragment() {
         presenter = new DashboardPresenter();
@@ -135,15 +140,26 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         layoutMode = type;
         switch (type) {
             case LIST:
-                recyclerViewPost.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                if (listLayoutManager == null) {
+                    listLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                }
+                recyclerViewPost.setLayoutManager(listLayoutManager);
                 adapter.setImageInSquare(false);
                 break;
+
             case FLOW:
-                recyclerViewPost.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                if (flowLayoutManager == null) {
+                    flowLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                }
+                recyclerViewPost.setLayoutManager(flowLayoutManager);
                 adapter.setImageInSquare(false);
                 break;
+
             case GRID:
-                recyclerViewPost.setLayoutManager(new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false));
+                if (gridLayoutManager == null) {
+                    gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
+                }
+                recyclerViewPost.setLayoutManager(gridLayoutManager);
                 adapter.setImageInSquare(true);
                 break;
         }

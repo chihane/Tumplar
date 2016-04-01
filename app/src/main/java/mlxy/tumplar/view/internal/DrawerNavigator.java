@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import mlxy.tumplar.R;
 import mlxy.tumplar.view.activity.HelpActivity;
+import mlxy.tumplar.view.activity.SettingsActivity;
 import mlxy.tumplar.view.fragment.DashboardFragment;
 import mlxy.tumplar.view.fragment.HomeFragment;
 
@@ -74,6 +75,8 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
     }
 
     private void openSettings() {
+        Intent intent = new Intent(fragmentActivity, SettingsActivity.class);
+        fragmentActivity.startActivity(intent);
     }
 
     private void openHelp() {
