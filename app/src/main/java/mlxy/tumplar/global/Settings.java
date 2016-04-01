@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import mlxy.tumplar.global.settings.PreviewQuality;
-import mlxy.utils.Prefs;
 
 public class Settings {
     private static SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.component.context());

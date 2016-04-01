@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import com.squareup.okhttp.HttpUrl;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
@@ -51,7 +50,7 @@ public class AvatarModel {
         }
 
         // XXX try something like Observable.cache(blogName)?
-        Observable<Uri> uriObservable =fromNet(blogName)
+        Observable<Uri> uriObservable = fromNet(blogName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(new Action0() {
