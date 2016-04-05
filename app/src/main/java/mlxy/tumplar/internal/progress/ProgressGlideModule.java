@@ -22,7 +22,7 @@ public class ProgressGlideModule implements GlideModule {
 
     @Override
     public void registerComponents(Context context, Glide glide) {
-        OkHttpClient client = App.component.okHttpClient();
+        OkHttpClient client = new OkHttpClient();
         client.networkInterceptors().add(new ProgressInterceptor(new ProgressDispatcher()));
         glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(client));
     }

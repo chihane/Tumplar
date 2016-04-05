@@ -53,9 +53,9 @@ public class PrefetchService extends Service {
         Observable.just("https://40.media.tumblr.com/08dba4ef02458447542912f25a0e7c56/tumblr_o4fd294APs1qix0dvo1_1280.jpg")
                 .subscribe(new Action1<String>() {
                     @Override
-                    public void call(String s) {
-                        glide.load(Uri.parse(s)).downloadOnly(new ProgressTarget(s, createListener()));
-                    }
+                    public void call(String url) {
+                        glide.load(Uri.parse(url)).downloadOnly(new ProgressTarget(url, createListener()));
+                }
                 });
 //                .flatMap(new Func1<List<PhotoPost>, Observable<PhotoPost>>() {
 //                    @Override

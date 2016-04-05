@@ -11,6 +11,7 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Locale;
 
@@ -47,10 +48,10 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgressEvent(PrefetchProgressEvent event) {
         String text = String.format(Locale.CHINA, "%s\n%s/%s", event.url, event.bytesRead, event.totalBytes);
-//        textView.setText(text);
-        Logger.d(text);
+        textView.setText(text);
+//        Logger.d(text);
     }
 }
