@@ -2,6 +2,7 @@ package mlxy.tumplar.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +24,7 @@ import mlxy.tumplar.internal.progress.ProgressListener;
 import mlxy.tumplar.internal.progress.ProgressTarget;
 import mlxy.tumplar.model.UserModel;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -47,30 +49,38 @@ public class PrefetchService extends Service {
     }
 
     public void prefetch() {
-        model.dashboardPhoto()
-                .flatMap(new Func1<List<PhotoPost>, Observable<PhotoPost>>() {
+        //"https://40.media.tumblr.com/08dba4ef02458447542912f25a0e7c56/tumblr_o4fd294APs1qix0dvo1_1280.jpg"
+        Observable.just("https://40.media.tumblr.com/08dba4ef02458447542912f25a0e7c56/tumblr_o4fd294APs1qix0dvo1_1280.jpg")
+                .subscribe(new Action1<String>() {
                     @Override
-                    public Observable<PhotoPost> call(List<PhotoPost> photoPosts) {
-//                        return Observable.from(photoPosts);
-                        return Observable.just(photoPosts.get(0));
+                    public void call(String s) {
+                        glide.load(Uri.parse(s)).downloadOnly(new ProgressTarget(s, createListener()));
                     }
-                })
-                .subscribeOn(Schedulers.io())
-                .map(new Func1<PhotoPost, Photo>() {
-                    @Override
-                    public Photo call(PhotoPost photoPost) {
-                        return photoPost.photos.get(0);
-                    }
-                })
-                .flatMap(new Func1<Photo, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Photo photo) {
-                        String url = photo.original_size.url;
-                        glide.load(url).downloadOnly(new ProgressTarget(url, createListener()));
-                        return null;
-                    }
-                })
-                .subscribe();
+                });
+//                .flatMap(new Func1<List<PhotoPost>, Observable<PhotoPost>>() {
+//                    @Override
+//                    public Observable<PhotoPost> call(List<PhotoPost> photoPosts) {
+////                        return Observable.from(photoPosts);
+//                        return Observable.just(photoPosts.get(0));
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .map(new Func1<PhotoPost, Photo>() {
+//                    @Override
+//                    public Photo call(PhotoPost photoPost) {
+//                        return photoPost.photos.get(0);
+//                    }
+//                })
+//                .flatMap(new Func1<Photo, Observable<?>>() {
+//                    @Override
+//                    public Observable<?> call(Photo photo) {
+//                        String url = photo.original_size.url;
+//                        glide.load(Uri.parse(url)).downloadOnly(new ProgressTarget(url, createListener()));
+//                        return null;
+//                    }
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe();
     }
 
     @NonNull

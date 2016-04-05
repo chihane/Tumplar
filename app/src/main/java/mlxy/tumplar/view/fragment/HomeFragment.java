@@ -7,20 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import mlxy.tumplar.R;
 import mlxy.tumplar.entity.event.PrefetchProgressEvent;
+import mlxy.tumplar.global.App;
 import mlxy.tumplar.service.PrefetchService;
 
 public class HomeFragment extends BaseFragment {
     private TextView textView;
 
+    @Inject
+    EventBus bus;
+
     public HomeFragment() {
-        EventBus.getDefault().register(this);
+        App.graph.inject(this);
+        bus.register(this);
     }
 
     @Nullable
@@ -41,6 +50,7 @@ public class HomeFragment extends BaseFragment {
     @Subscribe
     public void onProgressEvent(PrefetchProgressEvent event) {
         String text = String.format(Locale.CHINA, "%s\n%s/%s", event.url, event.bytesRead, event.totalBytes);
-        textView.setText(text);
+//        textView.setText(text);
+        Logger.d(text);
     }
 }

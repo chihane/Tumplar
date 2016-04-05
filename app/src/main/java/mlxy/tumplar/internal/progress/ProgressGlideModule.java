@@ -12,6 +12,8 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.io.InputStream;
 
+import mlxy.tumplar.global.App;
+
 public class ProgressGlideModule implements GlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
@@ -20,7 +22,7 @@ public class ProgressGlideModule implements GlideModule {
 
     @Override
     public void registerComponents(Context context, Glide glide) {
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = App.component.okHttpClient();
         client.networkInterceptors().add(new ProgressInterceptor(new ProgressDispatcher()));
         glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(client));
     }

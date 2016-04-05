@@ -3,6 +3,8 @@ package mlxy.tumplar.internal.injection;
 import android.content.Context;
 import android.support.v7.widget.AppCompatDrawableManager;
 
+import com.squareup.okhttp.OkHttpClient;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -24,4 +26,5 @@ public interface AppComponent extends Graph {
     }
 
     Context context();
+    OkHttpClient okHttpClient();
 }

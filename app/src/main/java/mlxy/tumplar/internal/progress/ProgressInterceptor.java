@@ -24,7 +24,7 @@ class ProgressInterceptor implements com.squareup.okhttp.Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         Response response = chain.proceed(request);
-        return new Response.Builder()
+        return response.newBuilder()
                 .body(new InterceptedResponseBody(request.httpUrl().toString(), response.body(), listener))
                 .build();
     }
@@ -33,6 +33,7 @@ class ProgressInterceptor implements com.squareup.okhttp.Interceptor {
         private final String url;
         private final ResponseBody responseBody;
         private final ResponseReadingProgressListener listener;
+        private BufferedSource bufferedSource;
 
         public InterceptedResponseBody(String url, ResponseBody responseBody, ResponseReadingProgressListener listener) {
             this.url = url;
@@ -52,7 +53,10 @@ class ProgressInterceptor implements com.squareup.okhttp.Interceptor {
 
         @Override
         public BufferedSource source() throws IOException {
-            return Okio.buffer(intercept(responseBody.source()));
+            if (bufferedSource == null) {
+                bufferedSource = Okio.buffer(intercept(responseBody.source()));
+            }
+            return bufferedSource;
         }
 
         private Source intercept(final Source source) {
