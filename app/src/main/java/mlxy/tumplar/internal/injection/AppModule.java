@@ -7,6 +7,9 @@ import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBusBuilder;
+
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -65,5 +68,12 @@ public class AppModule {
         return new GsonBuilder()
                 .registerTypeAdapter(Post.class, new PostDeserializer())
                 .create();
+    }
+
+    @Provides
+    @Singleton
+    EventBus provideEventBus() {
+        return EventBus.builder()
+                .build();
     }
 }
