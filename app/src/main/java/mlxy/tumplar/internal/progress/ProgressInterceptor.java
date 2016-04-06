@@ -1,5 +1,6 @@
 package mlxy.tumplar.internal.progress;
 
+import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -13,19 +14,13 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 
-class ProgressInterceptor implements com.squareup.okhttp.Interceptor {
-    private final ResponseReadingProgressListener listener;
-
-    public ProgressInterceptor(ResponseReadingProgressListener listener) {
-        this.listener = listener;
-    }
-
+class ProgressInterceptor implements Interceptor {
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(Interceptor.Chain chain) throws IOException {
         Request request = chain.request();
         Response response = chain.proceed(request);
         return response.newBuilder()
-                .body(new InterceptedResponseBody(request.httpUrl().toString(), response.body(), listener))
+                .body(new InterceptedResponseBody(request.httpUrl().toString(), response.body()))
                 .build();
     }
 
@@ -33,12 +28,13 @@ class ProgressInterceptor implements com.squareup.okhttp.Interceptor {
         private final String url;
         private final ResponseBody responseBody;
         private final ResponseReadingProgressListener listener;
+
         private BufferedSource bufferedSource;
 
-        public InterceptedResponseBody(String url, ResponseBody responseBody, ResponseReadingProgressListener listener) {
+        public InterceptedResponseBody(String url, ResponseBody responseBody) {
             this.url = url;
             this.responseBody = responseBody;
-            this.listener = listener;
+            this.listener = ProgressDispatcher.create();
         }
 
         @Override
@@ -75,9 +71,7 @@ class ProgressInterceptor implements com.squareup.okhttp.Interceptor {
                         totalBytesRead += bytesRead;
                     }
 
-                    if (listener != null) {
-                        listener.onProgress(url, totalBytesRead, totalBytes);
-                    }
+                    listener.onProgress(url, totalBytesRead, totalBytes);
 
                     return bytesRead;
                 }

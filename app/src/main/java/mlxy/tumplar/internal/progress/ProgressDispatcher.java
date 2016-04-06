@@ -5,6 +5,8 @@ import java.util.HashMap;
 public class ProgressDispatcher implements ResponseReadingProgressListener {
     private static final HashMap<String, ProgressListener> LISTENERS = new HashMap<>();
 
+    public ProgressDispatcher() {}
+
     public static void addListener(String url, ProgressListener listener) {
         LISTENERS.put(url, listener);
     }
@@ -19,5 +21,9 @@ public class ProgressDispatcher implements ResponseReadingProgressListener {
         if (listener != null) {
             listener.onProgress(url, bytesRead, totalBytes);
         }
+    }
+
+    public static ProgressDispatcher create() {
+        return new ProgressDispatcher();
     }
 }
