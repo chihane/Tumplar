@@ -3,7 +3,6 @@ package mlxy.tumplar.internal.progress;
 import android.graphics.drawable.Drawable;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -25,16 +24,18 @@ public class ProgressTarget extends TargetWrapper {
     @Override
     public void onLoadFailed(Exception e, Drawable errorDrawable) {
         super.onLoadFailed(e, errorDrawable);
-        Logger.e(e, "failed");
+        ProgressDispatcher.removeListener(url);
     }
 
     @Override
     public void onLoadCleared(Drawable placeholder) {
         super.onLoadCleared(placeholder);
+        ProgressDispatcher.removeListener(url);
     }
 
     @Override
     public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
         super.onResourceReady(resource, glideAnimation);
+        ProgressDispatcher.removeListener(url);
     }
 }

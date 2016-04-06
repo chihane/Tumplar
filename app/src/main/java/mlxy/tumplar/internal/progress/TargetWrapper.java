@@ -17,9 +17,6 @@ public class TargetWrapper implements Target<File> {
         this.target = new SimpleTarget<File>() {
             @Override
             public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-                boolean b = resource.canRead();
-                boolean b1 = resource.canExecute();
-                // ?
             }
         };
     }

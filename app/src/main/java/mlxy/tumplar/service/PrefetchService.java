@@ -49,38 +49,14 @@ public class PrefetchService extends Service {
     }
 
     public void prefetch() {
-        //"https://40.media.tumblr.com/08dba4ef02458447542912f25a0e7c56/tumblr_o4fd294APs1qix0dvo1_1280.jpg"
-        Observable.just("https://40.media.tumblr.com/08dba4ef02458447542912f25a0e7c56/tumblr_o4fd294APs1qix0dvo1_1280.jpg")
+        String url = "https://40.media.tumblr.com/08dba4ef02458447542912f25a0e7c56/tumblr_o4fd294APs1qix0dvo1_1280.jpg";
+        Observable.just(url)
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String url) {
                         glide.load(Uri.parse(url)).downloadOnly(new ProgressTarget(url, createListener()));
-                }
+                    }
                 });
-//                .flatMap(new Func1<List<PhotoPost>, Observable<PhotoPost>>() {
-//                    @Override
-//                    public Observable<PhotoPost> call(List<PhotoPost> photoPosts) {
-////                        return Observable.from(photoPosts);
-//                        return Observable.just(photoPosts.get(0));
-//                    }
-//                })
-//                .subscribeOn(Schedulers.io())
-//                .map(new Func1<PhotoPost, Photo>() {
-//                    @Override
-//                    public Photo call(PhotoPost photoPost) {
-//                        return photoPost.photos.get(0);
-//                    }
-//                })
-//                .flatMap(new Func1<Photo, Observable<?>>() {
-//                    @Override
-//                    public Observable<?> call(Photo photo) {
-//                        String url = photo.original_size.url;
-//                        glide.load(Uri.parse(url)).downloadOnly(new ProgressTarget(url, createListener()));
-//                        return null;
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe();
     }
 
     @NonNull
