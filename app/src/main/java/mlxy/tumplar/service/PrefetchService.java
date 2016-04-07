@@ -55,7 +55,7 @@ public class PrefetchService extends Service {
                             .subscribe(new Action1<Progress>() {
                                 @Override
                                 public void call(Progress progress) {
-                                    eventBus.post(new PrefetchProgressEvent(url, progress.bytesRead, progress.totalBytes));
+                                    eventBus.post(new PrefetchProgressEvent(url, progress.totalBytesRead, progress.totalBytes));
                                 }
                             }, new Action1<Throwable>() {
                                 @Override
