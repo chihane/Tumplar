@@ -5,6 +5,7 @@ import com.orhanobut.logger.Logger;
 
 import mlxy.tumplar.internal.injection.AppComponent;
 import mlxy.tumplar.internal.injection.Graph;
+import mlxy.tumplar.internal.progress.ProgressImagePipelineModule;
 
 public class App extends android.app.Application {
     private static final String LOG_TAG = "chihane";
@@ -16,7 +17,7 @@ public class App extends android.app.Application {
         super.onCreate();
 
         Logger.init(LOG_TAG);
-        Fresco.initialize(this);
+        Fresco.initialize(this, ProgressImagePipelineModule.getImagePipelineConfig(this));
 
         component = AppComponent.Initializer.init(this);
         graph = component;
