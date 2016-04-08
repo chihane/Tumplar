@@ -1,4 +1,4 @@
-package mlxy.tumplar.view.internal;
+package mlxy.tumplar.view.drawer;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;

@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import mlxy.tumplar.R;
-import mlxy.tumplar.view.internal.DrawerHeader;
-import mlxy.tumplar.view.internal.DrawerNavigator;
+import mlxy.tumplar.view.drawer.DrawerHeader;
+import mlxy.tumplar.view.drawer.DrawerNavigator;
 
 public class BaseActivity extends AppCompatActivity {
     private Toolbar mToolBar;
