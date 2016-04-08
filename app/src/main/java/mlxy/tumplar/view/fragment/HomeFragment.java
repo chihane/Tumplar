@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -50,6 +48,11 @@ public class HomeFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgressEvent(PrefetchProgressEvent event) {
+        if (event.bytesRead == -1) {
+            String text = String.format(Locale.CHINA, "%s\nCompleted: %s", event.url, System.currentTimeMillis());
+            textView.setText(text);
+            return;
+        }
         String text = String.format(Locale.CHINA, "%s\n%s/%s", event.url, event.bytesRead, event.totalBytes);
         textView.setText(text);
 //        Logger.d(text);
