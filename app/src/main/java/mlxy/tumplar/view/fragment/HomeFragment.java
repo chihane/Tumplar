@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgressEvent(PrefetchProgressEvent event) {
-        if (event.bytesRead == -1) {
+        if (event == PrefetchProgressEvent.COMPLETE) {
             String text = String.format(Locale.CHINA, "%s\nCompleted: %s", event.url, System.currentTimeMillis());
             textView.setText(text);
             return;

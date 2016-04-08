@@ -18,7 +18,6 @@ public class DashboardPresenter {
 
     public DashboardPresenter() {
         App.graph.inject(this);
-        loadPosts(0);
     }
 
     public void loadPosts(final int offset) {

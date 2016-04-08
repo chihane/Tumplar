@@ -73,7 +73,7 @@ public class ProgressInterceptor implements Interceptor {
 
                     Subscriber<? super Progress> subscriber = ProgressDispatcher.getSubscriber(url);
                     if (subscriber != null) {
-                        subscriber.onNext(Progress.obtain(totalBytesRead, totalBytes));
+                        subscriber.onNext(Progress.obtain(url, totalBytesRead, totalBytes));
                         if (totalBytesRead == totalBytes) {
                             subscriber.onCompleted();
                         }

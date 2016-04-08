@@ -48,12 +48,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
 
         recyclerViewPost = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerViewPost.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));

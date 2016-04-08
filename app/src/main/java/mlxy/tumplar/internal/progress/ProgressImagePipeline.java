@@ -17,7 +17,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 
-public class ProgressImagePipelineModule {
+public class ProgressImagePipeline {
     public static ImagePipelineConfig getImagePipelineConfig(Context context) {
         OkHttpClient client = new OkHttpClient();
         client.networkInterceptors().add(new ProgressInterceptor());
