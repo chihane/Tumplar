@@ -21,6 +21,13 @@ import mlxy.tumplar.global.App;
 import mlxy.tumplar.service.PrefetchService;
 
 public class HomeFragment extends BaseFragment {
+    private static final class Initializer {
+        private static final HomeFragment INSTANCE = new HomeFragment();
+    }
+    public static HomeFragment instance() {
+        return Initializer.INSTANCE;
+    }
+
     private TextView textView;
 
     @Inject

@@ -24,6 +24,13 @@ import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;
 
 public class DashboardFragment extends BaseFragment implements DashboardView, SwipeRefreshLayout.OnRefreshListener, DashboardListAdapter.OnLoadMoreListener {
+    private static final class Initializer {
+        private static final DashboardFragment INSTANCE = new DashboardFragment();
+    }
+    public static DashboardFragment instance() {
+        return Initializer.INSTANCE;
+    }
+
     private View view;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -62,6 +69,12 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.onTakeView(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        // TODO pause network task if hidden?
     }
 
     @Override

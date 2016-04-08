@@ -3,7 +3,7 @@ package mlxy.tumplar.view.internal;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -26,6 +26,9 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
         this.navigationView = navigationView;
         this.navigationView.setNavigationItemSelectedListener(this);
         this.toolBar = toolBar;
+
+        navigationView.setCheckedItem(R.id.menu_home);
+        switchToHome();
     }
 
     @Override
@@ -61,14 +64,38 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
 
     private void switchToHome() {
         toolBar.setTitle(R.string.home);
-        FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+
+        FragmentTransaction transaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
+
+        if (DashboardFragment.instance().isVisible()) {
+            transaction.hide(DashboardFragment.instance());
+        }
+
+        if (!HomeFragment.instance().isAdded()) {
+            transaction.add(R.id.content, HomeFragment.instance());
+        } else {
+            transaction.show(HomeFragment.instance());
+        }
+
+        transaction.commit();
     }
 
     private void switchToDashboard() {
         toolBar.setTitle(R.string.dashboard);
-        FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content, new DashboardFragment()).commit();
+
+        FragmentTransaction transaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
+
+        if (HomeFragment.instance().isVisible()) {
+            transaction.hide(HomeFragment.instance());
+        }
+
+        if (!DashboardFragment.instance().isAdded()) {
+            transaction.add(R.id.content, DashboardFragment.instance());
+        } else {
+            transaction.show(DashboardFragment.instance());
+        }
+
+        transaction.commit();
     }
 
     private void switchToLikes() {
