@@ -92,34 +92,17 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         holder.onPhotosNext(photoPost.photos);
         loadAvatar(holder, photoPost);
 
-        holder.setOnPhotoClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = photoPost.photos.get(0).original_size.url;
-                ImageViewerActivity.startWithImageUri(holder.getContext(), Uri.parse(url));
-            }
+        holder.setOnPhotoClickListener(view -> {
+            String url = photoPost.photos.get(0).original_size.url;
+            ImageViewerActivity.startWithImageUri(holder.getContext(), Uri.parse(url));
         });
     }
 
     private void loadAvatar(final ViewHolder holder, final PhotoPost photoPost) {
         AvatarModel.getInstance().get(photoPost.blog_name)
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        holder.onAvatarNext(null);
-                    }
-                })
-                .subscribe(new Action1<Uri>() {
-                    @Override
-                    public void call(Uri uri) {
-                        holder.onAvatarNext(uri);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Logger.e(throwable, "dashboard");
-                    }
-                });
+                .doOnSubscribe(() -> holder.onAvatarNext(null))
+                .subscribe(holder::onAvatarNext,
+                        throwable -> Logger.e(throwable, "dashboard"));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -151,7 +134,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
             if (setImageInSquare) {
                 draweeImage.setAspectRatio(1);
             } else {
-                float aspectRatio = (float) photoSize.height / photoSize.width;
+                float aspectRatio = (float) photoSize.width / photoSize.height;
                 draweeImage.setAspectRatio(aspectRatio);
             }
             draweeImage.setImageURI(Uri.parse(photoSize.url));
