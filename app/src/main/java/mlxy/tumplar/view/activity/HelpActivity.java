@@ -10,13 +10,8 @@ public class HelpActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.help);
         setContentView(R.layout.normal_layout);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.help);
-        }
 
         getFragmentManager().beginTransaction().replace(R.id.content, new HelpFragment()).commit();
     }

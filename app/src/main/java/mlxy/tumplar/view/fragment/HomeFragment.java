@@ -1,5 +1,6 @@
 package mlxy.tumplar.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import mlxy.tumplar.R;
 import mlxy.tumplar.entity.event.PrefetchProgressEvent;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.service.PrefetchService;
+import mlxy.tumplar.view.activity.LoginActivity;
 
 public class HomeFragment extends BaseFragment {
     private static final class Initializer {
@@ -46,8 +48,7 @@ public class HomeFragment extends BaseFragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PrefetchService service = new PrefetchService();
-                service.prefetch();
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
         return view;
