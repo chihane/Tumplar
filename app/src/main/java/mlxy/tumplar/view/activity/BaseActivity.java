@@ -88,10 +88,12 @@ public class BaseActivity extends AppCompatActivity {
         return fab;
     }
 
+    /** Will be initialized after setContentView(). */
     protected Toolbar getToolBar() {
         return mToolBar;
     }
 
+    /** Will be initialized after onPostCreate(). */
     protected DrawerLayout getDrawerLayout() {
         return mDrawerLayout;
     }

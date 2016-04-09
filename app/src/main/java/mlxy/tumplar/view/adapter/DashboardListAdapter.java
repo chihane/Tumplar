@@ -1,5 +1,6 @@
 package mlxy.tumplar.view.adapter;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import mlxy.tumplar.entity.PhotoSize;
 import mlxy.tumplar.global.Settings;
 import mlxy.tumplar.global.settings.PreviewQuality;
 import mlxy.tumplar.model.AvatarModel;
+import mlxy.tumplar.view.activity.ImageViewerActivity;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
@@ -89,6 +91,14 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         holder.onBlogNameNext(photoPost.blog_name);
         holder.onPhotosNext(photoPost.photos);
         loadAvatar(holder, photoPost);
+
+        holder.setOnPhotoClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = photoPost.photos.get(0).original_size.url;
+                ImageViewerActivity.startWithImageUri(holder.getContext(), Uri.parse(url));
+            }
+        });
     }
 
     private void loadAvatar(final ViewHolder holder, final PhotoPost photoPost) {
@@ -119,7 +129,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
         public ViewHolder(ViewGroup parent, int viewType) {
             super(inflateViewByViewType(parent, viewType));
-            draweeImage = (SimpleDraweeView) itemView.findViewById(R.id.draweeImage);
+            draweeImage = (SimpleDraweeView) itemView.findViewById(R.id.photoViewPhoto);
             draweeAvatar = (SimpleDraweeView) itemView.findViewById(R.id.draweeAvatar);
             textViewBlogName = (TextView) itemView.findViewById(R.id.textViewBlogName);
         }
@@ -146,11 +156,19 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
             }
             draweeImage.setImageURI(Uri.parse(photoSize.url));
         }
+
+        void setOnPhotoClickListener(View.OnClickListener listener) {
+            draweeImage.setOnClickListener(listener);
+        }
+
+        public Context getContext() {
+            return draweeImage.getContext();
+        }
     }
 
     private static View inflateViewByViewType(ViewGroup parent, int viewType) {
         if (viewType == TYPE_FOOTER) {
-            return LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_load_more, parent, false);
+            return LayoutInflater.from(parent.getContext()).inflate(R.layout.indeterminate_progressbar, parent, false);
         } else {
             return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false);
         }
