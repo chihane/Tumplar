@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso;
 
 import mlxy.tumplar.R;
 import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ImageViewerActivity extends BaseActivity {
     private static final String EXTRA_IMAGE_URI = "extra_image_uri";
@@ -28,20 +27,10 @@ public class ImageViewerActivity extends BaseActivity {
         setContentView(R.layout.activity_image_viewer);
 
         PhotoView photoViewPhoto = (PhotoView) findViewById(R.id.photoViewPhoto);
-        photoViewPhoto.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                finish();
-            }
-        });
+        photoViewPhoto.setOnViewTapListener((view, x, y) -> finish());
 
         final View progressBar = findViewById(R.id.progressBar);
-        progressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        progressBar.setOnClickListener(view -> finish());
 
         Uri imageUri = getIntent().getParcelableExtra(EXTRA_IMAGE_URI);
         if (imageUri != null) {
