@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import mlxy.tumplar.R;
 import mlxy.tumplar.entity.event.PrefetchProgressEvent;
 import mlxy.tumplar.global.App;
-import mlxy.tumplar.service.PrefetchService;
 import mlxy.tumplar.view.activity.LoginActivity;
 
 public class HomeFragment extends BaseFragment {
@@ -45,12 +44,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_home, container, false);
         textView = (TextView) view.findViewById(R.id.textView);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), LoginActivity.class));
-            }
-        });
+        textView.setOnClickListener(v -> startActivity(new Intent(getContext(), LoginActivity.class)));
         return view;
     }
 

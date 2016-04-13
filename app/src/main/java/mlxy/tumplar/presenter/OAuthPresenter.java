@@ -3,8 +3,6 @@ package mlxy.tumplar.presenter;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
-
 import mlxy.tumplar.R;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.Constants;
@@ -14,8 +12,6 @@ import mlxy.tumplar.view.OAuthView;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class OAuthPresenter {
@@ -37,22 +33,16 @@ public class OAuthPresenter {
 
     public void refresh() {
         Authorizer.requestTempToken(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET, callbackUrl)
-                .flatMap(new Func1<OAuthCredentialsResponse, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(OAuthCredentialsResponse oAuthCredentialsResponse) {
-                        tempToken = oAuthCredentialsResponse.token;
-                        tempTokenSecret = oAuthCredentialsResponse.tokenSecret;
-                        return Authorizer.authorize(Constants.CONSUMER_SECRET, tempToken, tempTokenSecret);
-                    }
+                .flatMap(oAuthCredentialsResponse -> {
+                    tempToken = oAuthCredentialsResponse.token;
+                    tempTokenSecret = oAuthCredentialsResponse.tokenSecret;
+                    return Authorizer.authorize(Constants.CONSUMER_SECRET, tempToken, tempTokenSecret);
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        state = State.AUTHORIZING;
-                        publish();
-                    }
+                .doOnSubscribe(() -> {
+                    state = State.AUTHORIZING;
+                    publish();
                 })
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -126,30 +116,19 @@ public class OAuthPresenter {
         Authorizer.accessToken(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET, tempToken, tempTokenSecret, verifier)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
-                .flatMap(new Func1<OAuthCredentialsResponse, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(final OAuthCredentialsResponse oAuthCredentialsResponse) {
-                        return Observable.create(new Observable.OnSubscribe<Object>() {
-                            @Override
-                            public void call(Subscriber<? super Object> subscriber) {
-                                String token = oAuthCredentialsResponse.token;
-                                String tokenSecret = oAuthCredentialsResponse.tokenSecret;
+                .flatMap(oAuthCredentialsResponse -> Observable.create(subscriber -> {
+                    String token = oAuthCredentialsResponse.token;
+                    String tokenSecret = oAuthCredentialsResponse.tokenSecret;
 
-                                User.saveToken(token, tokenSecret);
-                                User.tryLogin();
+                    User.saveToken(token, tokenSecret);
+                    User.tryLogin();
 
-                                subscriber.onCompleted();
-                            }
-                        });
-                    }
-                })
+                    subscriber.onCompleted();
+                }))
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        state = State.ACCESSING_TOKEN;
-                        publish();
-                    }
+                .doOnSubscribe(() -> {
+                    state = State.ACCESSING_TOKEN;
+                    publish();
                 })
                 .subscribe(new Subscriber<Object>() {
                     @Override

@@ -78,12 +78,7 @@ public class LoginFragment extends BaseFragment implements OAuthView {
             errorMessage = e.getLocalizedMessage();
         }
         Snackbar snackbar = Snackbar.make(rootView, errorMessage, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction(R.string.retry, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                oAuthPresenter.refresh();
-            }
-        });
+        snackbar.setAction(R.string.retry, v -> oAuthPresenter.refresh());
         snackbar.show();
     }
 

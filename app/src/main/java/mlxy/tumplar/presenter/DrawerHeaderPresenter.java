@@ -4,8 +4,6 @@ import android.net.Uri;
 
 import javax.inject.Inject;
 
-import mlxy.tumplar.entity.Blog;
-import mlxy.tumplar.entity.response.UserInfoResponse;
 import mlxy.tumplar.global.App;
 import mlxy.tumplar.global.User;
 import mlxy.tumplar.model.AvatarModel;
@@ -13,8 +11,6 @@ import mlxy.tumplar.model.UserModel;
 import mlxy.tumplar.view.DrawerHeaderView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class DrawerHeaderPresenter {
@@ -37,50 +33,20 @@ public class DrawerHeaderPresenter {
     private void getAvatar() {
         Observable.just(User.info)
                 .concatWith(userModel.me()
-                        .map(new Func1<UserInfoResponse, mlxy.tumplar.entity.User>() {
-                            @Override
-                            public mlxy.tumplar.entity.User call(UserInfoResponse userInfoResponse) {
-                                return userInfoResponse.response.user;
-                            }
-                        }).doOnNext(new Action1<mlxy.tumplar.entity.User>() {
-                            @Override
-                            public void call(mlxy.tumplar.entity.User user) {
-                                User.info = user;
-                                publish();
-                            }
+                        .map(userInfoResponse -> userInfoResponse.response.user)
+                        .doOnNext(user -> {
+                            User.info = user;
+                            publish();
                         }))
-                .filter(new Func1<mlxy.tumplar.entity.User, Boolean>() {
-                    @Override
-                    public Boolean call(mlxy.tumplar.entity.User user) {
-                        return user != null;
-                    }
-                })
-                .map(new Func1<mlxy.tumplar.entity.User, Blog>() {
-                    @Override
-                    public Blog call(mlxy.tumplar.entity.User user) {
-                        return user.blogs.get(0);
-                    }
-                })
-                .flatMap(new Func1<Blog, Observable<Uri>>() {
-                    @Override
-                    public Observable<Uri> call(Blog blog) {
-                        return AvatarModel.getInstance().get(blog.name);
-                    }
-                })
+                .filter(user -> user != null)
+                .map(user -> user.blogs.get(0))
+                .flatMap(blog -> AvatarModel.getInstance().get(blog.name))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Uri>() {
-                    @Override
-                    public void call(Uri uri) {
-                        avatarUri = uri;
-                        publish();
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        view.showError(throwable);
-                    }
-                });
+                .subscribe(uri -> {
+                    avatarUri = uri;
+                    publish();
+                }, throwable -> view.showError(throwable));
     }
 
     public void onTakeView(DrawerHeaderView view) {

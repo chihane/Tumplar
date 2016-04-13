@@ -15,7 +15,6 @@ import com.squareup.okhttp.OkHttpClient;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action0;
 
 public class ProgressImagePipeline {
     public static ImagePipelineConfig getImagePipelineConfig(Context context) {
@@ -34,12 +33,7 @@ public class ProgressImagePipeline {
                         .subscribe(new SimpleDataSubscriber(subscriber),
                                 new HandlerExecutorServiceImpl(new Handler()));
             }
-        }).finallyDo(new Action0() {
-            @Override
-            public void call() {
-                ProgressDispatcher.unsubscribe(uri.toString());
-            }
-        });
+        }).finallyDo(() -> ProgressDispatcher.unsubscribe(uri.toString()));
     }
 
     static class SimpleDataSubscriber extends BaseDataSubscriber<Void> {

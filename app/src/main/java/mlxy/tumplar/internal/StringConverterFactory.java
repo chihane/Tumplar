@@ -1,6 +1,5 @@
 package mlxy.tumplar.internal;
 
-import com.orhanobut.logger.Logger;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
@@ -21,12 +20,7 @@ public class StringConverterFactory extends Converter.Factory {
     @Override
     public Converter<ResponseBody, ?> fromResponseBody(Type type, Annotation[] annotations) {
         if (String.class.equals(type)) {
-            return new Converter<ResponseBody, String>() {
-                @Override
-                public String convert(ResponseBody value) throws IOException {
-                    return value.string();
-                }
-            };
+            return ResponseBody::string;
         }
         return null;
     }

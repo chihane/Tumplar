@@ -22,8 +22,6 @@ import mlxy.tumplar.global.Settings;
 import mlxy.tumplar.global.settings.PreviewQuality;
 import mlxy.tumplar.model.AvatarModel;
 import mlxy.tumplar.view.activity.ImageViewerActivity;
-import rx.functions.Action0;
-import rx.functions.Action1;
 
 public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
     private static int TYPE_FOOTER = 0x111;

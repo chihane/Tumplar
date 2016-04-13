@@ -1,7 +1,6 @@
 package mlxy.tumplar.view.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 
 import mlxy.tumplar.R;
 import mlxy.tumplar.view.fragment.HelpFragment;

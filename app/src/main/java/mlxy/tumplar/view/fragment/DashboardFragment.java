@@ -98,12 +98,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
 
     @Override
     public void hideProgressIfShown() {
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(false));
     }
 
     @Override

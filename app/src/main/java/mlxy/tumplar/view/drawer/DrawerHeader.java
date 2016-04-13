@@ -1,7 +1,6 @@
 package mlxy.tumplar.view.drawer;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
@@ -69,19 +68,11 @@ public class DrawerHeader implements DrawerHeaderView, View.OnClickListener {
         if (confirmLogoutDialog == null) {
             confirmLogoutDialog = new AlertDialog.Builder(activity)
                     .setMessage(R.string.msg_confirm_logout)
-                    .setPositiveButton(R.string.logout, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            presenter.logout();
-                            dialog.dismiss();
-                        }
+                    .setPositiveButton(R.string.logout, (dialog, which) -> {
+                        presenter.logout();
+                        dialog.dismiss();
                     })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create();
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).create();
         }
 
         confirmLogoutDialog.show();

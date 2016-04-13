@@ -1,7 +1,6 @@
 package mlxy.tumplar.internal.injection;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatDrawableManager;
 
 import com.squareup.okhttp.OkHttpClient;
 
@@ -9,9 +8,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import mlxy.tumplar.global.App;
-import mlxy.tumplar.model.AvatarModel;
-import mlxy.tumplar.presenter.DashboardPresenter;
-import mlxy.tumplar.presenter.DrawerHeaderPresenter;
 
 @Singleton
 @Component(modules = { AppModule.class, ApiModule.class })

@@ -16,8 +16,6 @@ import retrofit.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -55,12 +53,7 @@ public class AvatarModel {
         Observable<Uri> uriObservable = fromNet(blogName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        observableCache.remove(blogName);
-                    }
-                });
+                .doOnTerminate(() -> observableCache.remove(blogName));
 
         Observable<Uri> doubleCheck = observableCache.putIfAbsent(blogName, uriObservable);
         if (doubleCheck != null) {
@@ -89,11 +82,6 @@ public class AvatarModel {
                         HttpUrl avatarUrl = response.raw().request().httpUrl();
                         return Observable.just(Uri.parse(avatarUrl.toString()));
                     }
-                }).doOnNext(new Action1<Uri>() {
-                    @Override
-                    public void call(Uri uri) {
-                        cache.putIfAbsent(blogName, uri);
-                    }
-                });
+                }).doOnNext(uri -> cache.putIfAbsent(blogName, uri));
     }
 }
