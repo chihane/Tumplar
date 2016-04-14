@@ -30,4 +30,9 @@
         <item>@string/value_low_quality</item>
     </string-array>
 
+    <string-array name="dashboard_source">
+        <item>@string/archived</item>
+        <item>@string/newest</item>
+    </string-array>
+
 </resources>

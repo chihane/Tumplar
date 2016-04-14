@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ import mlxy.tumplar.entity.PhotoPost;
 import mlxy.tumplar.presenter.DashboardPresenter;
 import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;
+import mlxy.tumplar.view.adapter.ToolbarDropdownAdapter;
 
 public class DashboardFragment extends BaseFragment implements DashboardView, SwipeRefreshLayout.OnRefreshListener, DashboardListAdapter.OnLoadMoreListener {
     private static final class Initializer {
@@ -67,13 +71,27 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         presenter.onTakeView(this);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar supportActionBar = activity.getSupportActionBar();
+        supportActionBar.setTitle(null);
+        supportActionBar.setDisplayShowCustomEnabled(true);
+
+        Spinner spinner = (Spinner) LayoutInflater.from(activity).inflate(R.layout.toolbar_spinner, null, false);
+        spinner.setAdapter(new ToolbarDropdownAdapter(activity, R.array.dashboard_source));
+        supportActionBar.setCustomView(spinner);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar supportActionBar = activity.getSupportActionBar();
+        if (hidden) {
+            supportActionBar.setDisplayShowCustomEnabled(false);
+        } else {
+            supportActionBar.setTitle(null);
+            supportActionBar.setDisplayShowCustomEnabled(true);
+        }
         // TODO pause network task if hidden?
     }
 

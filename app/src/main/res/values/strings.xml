@@ -28,6 +28,9 @@
     <string name="cancel">Cancel</string>
     <string name="error_auth_failed">Authorization failed</string>
 
+    <string name="source">source</string>
+    <string name="archived">Archived</string>
+    <string name="newest">Newest</string>
     <string name="download">download</string>
     <string name="list">list</string>
     <string name="flow">flow</string>
@@ -37,6 +40,7 @@
     <string name="feedback">Feedback</string>
     <string name="license">License</string>
     <string name="version">Version</string>
+
     <string name="pref_key_changelog" translatable="false">key_changelog</string>
     <string name="pref_key_feedback" translatable="false">key_feedback</string>
     <string name="pref_key_license" translatable="false">key_license</string>
