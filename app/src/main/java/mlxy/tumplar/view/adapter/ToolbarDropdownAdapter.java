@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import mlxy.tumplar.R;
+
 public class ToolbarDropdownAdapter extends BaseAdapter implements ThemedSpinnerAdapter {
     private final Helper helper;
+
+    private int titleRes = 0;
     private final String[] entries;
 
-    public ToolbarDropdownAdapter(Context context, @ArrayRes int entries) {
+    public ToolbarDropdownAdapter(Context context, @StringRes int titleRes, @ArrayRes int entries) {
+        this.titleRes = titleRes;
         helper = new Helper(context);
         this.entries = context.getResources().getStringArray(entries);
     }
@@ -38,10 +44,14 @@ public class ToolbarDropdownAdapter extends BaseAdapter implements ThemedSpinner
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null || !view.getTag().toString().equals("NON_DROPDOWN")) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(android.R.layout.simple_spinner_item, viewGroup, false);
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.toolbar_spinner_item, viewGroup, false);
             view.setTag("NON_DROPDOWN");
         }
+        TextView title = (TextView) view.findViewById(R.id.action_bar_title);
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
+        if (titleRes != 0) {
+            title.setText(titleRes);
+        }
         textView.setText(getItem(i));
         return view;
     }

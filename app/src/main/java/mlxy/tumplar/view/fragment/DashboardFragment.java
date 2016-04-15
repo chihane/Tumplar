@@ -78,7 +78,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         supportActionBar.setDisplayShowCustomEnabled(true);
 
         Spinner spinner = (Spinner) LayoutInflater.from(activity).inflate(R.layout.toolbar_spinner, null, false);
-        spinner.setAdapter(new ToolbarDropdownAdapter(activity, R.array.dashboard_source));
+        spinner.setAdapter(new ToolbarDropdownAdapter(activity, R.string.dashboard, R.array.dashboard_source));
         supportActionBar.setCustomView(spinner);
     }
 
