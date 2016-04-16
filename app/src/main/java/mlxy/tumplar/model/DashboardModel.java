@@ -32,4 +32,8 @@ public class DashboardModel {
                 .cast(PhotoPost.class)
                 .toList();
     }
+
+    public void savePhotoPost(PhotoPost photoPost) {
+        // TODO persist post
+    }
 }
