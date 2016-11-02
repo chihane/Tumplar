@@ -153,7 +153,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
                     listLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 }
                 recyclerViewPost.setLayoutManager(listLayoutManager);
-                adapter.setImageInSquare(false);
+                adapter.showImageInSquare(false);
                 break;
 
             case GRID:
@@ -161,7 +161,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
                     gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
                 }
                 recyclerViewPost.setLayoutManager(gridLayoutManager);
-                adapter.setImageInSquare(true);
+                adapter.showImageInSquare(true);
                 break;
         }
     }

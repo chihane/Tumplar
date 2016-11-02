@@ -1,35 +1,26 @@
 package mlxy.tumplar.view.adapter;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import mlxy.tumplar.R;
-import mlxy.tumplar.entity.Photo;
 import mlxy.tumplar.entity.PhotoPost;
-import mlxy.tumplar.entity.PhotoSize;
-import mlxy.tumplar.global.Settings;
-import mlxy.tumplar.global.settings.PreviewQuality;
 import mlxy.tumplar.model.AvatarModel;
 import mlxy.tumplar.view.activity.ImageViewerActivity;
+import mlxy.tumplar.view.holder.DashboardViewHolder;
 
-public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdapter.ViewHolder> {
-    private static int TYPE_FOOTER = 0x111;
+import static mlxy.tumplar.view.holder.DashboardViewHolder.TYPE_FOOTER;
 
+public class DashboardListAdapter extends RecyclerView.Adapter<DashboardViewHolder> {
     private OnLoadMoreListener listener;
 
     private List<PhotoPost> data;
-    private boolean setImageInSquare;
+    private boolean showImageInSquare;
 
     public void setData(List<PhotoPost> data) {
         this.data = data;
@@ -53,8 +44,8 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         }
     }
 
-    public void setImageInSquare(boolean setImageInSquare) {
-        this.setImageInSquare = setImageInSquare;
+    public void showImageInSquare(boolean showImageInSquare) {
+        this.showImageInSquare = showImageInSquare;
     }
 
     @Override
@@ -63,8 +54,8 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(parent, viewType);
+    public DashboardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new DashboardViewHolder(parent, viewType);
     }
 
     @Override
@@ -77,7 +68,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final DashboardViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_FOOTER) {
             if (listener != null) {
                 listener.onLoadMore(data.size());
@@ -87,7 +78,7 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
 
         final PhotoPost photoPost = data.get(position);
         holder.onBlogNameNext(photoPost.blog_name);
-        holder.onPhotosNext(photoPost.photos);
+        holder.onPhotosNext(photoPost.photos, showImageInSquare);
         loadAvatar(holder, photoPost);
 
         holder.setOnPhotoClickListener(view -> {
@@ -96,63 +87,11 @@ public class DashboardListAdapter extends RecyclerView.Adapter<DashboardListAdap
         });
     }
 
-    private void loadAvatar(final ViewHolder holder, final PhotoPost photoPost) {
+    private void loadAvatar(final DashboardViewHolder holder, final PhotoPost photoPost) {
         AvatarModel.getInstance().get(photoPost.blog_name)
                 .doOnSubscribe(() -> holder.onAvatarNext(null))
                 .subscribe(holder::onAvatarNext,
                         throwable -> Logger.e(throwable, "dashboard"));
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private SimpleDraweeView draweeAvatar;
-        private TextView textViewBlogName;
-        private SimpleDraweeView draweeImage;
-
-        public ViewHolder(ViewGroup parent, int viewType) {
-            super(inflateViewByViewType(parent, viewType));
-            draweeImage = (SimpleDraweeView) itemView.findViewById(R.id.photoViewPhoto);
-            draweeAvatar = (SimpleDraweeView) itemView.findViewById(R.id.draweeAvatar);
-            textViewBlogName = (TextView) itemView.findViewById(R.id.textViewBlogName);
-        }
-
-        public void onBlogNameNext(String blogName) {
-            textViewBlogName.setText(blogName);
-        }
-
-        public void onAvatarNext(Uri avatarUri) {
-            draweeAvatar.setImageURI(avatarUri);
-        }
-
-        public void onPhotosNext(List<Photo> photos) {
-            Photo photo = photos.get(0);
-
-            PreviewQuality previewQuality = Settings.getPreviewQuality();
-            PhotoSize photoSize = photo.getPhotoSizeByQuality(previewQuality);
-
-            if (setImageInSquare) {
-                draweeImage.setAspectRatio(1);
-            } else {
-                float aspectRatio = (float) photoSize.width / photoSize.height;
-                draweeImage.setAspectRatio(aspectRatio);
-            }
-            draweeImage.setImageURI(Uri.parse(photoSize.url));
-        }
-
-        void setOnPhotoClickListener(View.OnClickListener listener) {
-            draweeImage.setOnClickListener(listener);
-        }
-
-        public Context getContext() {
-            return draweeImage.getContext();
-        }
-    }
-
-    private static View inflateViewByViewType(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_FOOTER) {
-            return LayoutInflater.from(parent.getContext()).inflate(R.layout.indeterminate_progressbar, parent, false);
-        } else {
-            return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false);
-        }
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
