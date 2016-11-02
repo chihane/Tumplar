@@ -12,7 +12,6 @@ import mlxy.tumplar.R;
 import mlxy.tumplar.view.activity.HelpActivity;
 import mlxy.tumplar.view.activity.SettingsActivity;
 import mlxy.tumplar.view.fragment.DashboardFragment;
-import mlxy.tumplar.view.fragment.HomeFragment;
 
 public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedListener {
     private FragmentActivity fragmentActivity;
@@ -27,8 +26,8 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
         this.navigationView.setNavigationItemSelectedListener(this);
         this.toolBar = toolBar;
 
-        navigationView.setCheckedItem(R.id.menu_home);
-        switchToHome();
+        navigationView.setCheckedItem(R.id.menu_dashboard);
+        switchToDashboard();
     }
 
     @Override
@@ -36,10 +35,6 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
         boolean toCheckItem = false;
 
         switch (item.getItemId()) {
-            case R.id.menu_home:
-                switchToHome();
-                toCheckItem = true;
-                break;
             case R.id.menu_dashboard:
                 switchToDashboard();
                 toCheckItem = true;
@@ -62,32 +57,14 @@ public class DrawerNavigator implements NavigationView.OnNavigationItemSelectedL
         return toCheckItem;
     }
 
-    private void switchToHome() {
-        toolBar.setTitle(R.string.home);
-
-        FragmentTransaction transaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
-
-        if (DashboardFragment.instance().isVisible()) {
-            transaction.hide(DashboardFragment.instance());
-        }
-
-        if (!HomeFragment.instance().isAdded()) {
-            transaction.add(R.id.content, HomeFragment.instance());
-        } else {
-            transaction.show(HomeFragment.instance());
-        }
-
-        transaction.commit();
-    }
-
     private void switchToDashboard() {
         toolBar.setTitle(R.string.dashboard);
 
         FragmentTransaction transaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
 
-        if (HomeFragment.instance().isVisible()) {
-            transaction.hide(HomeFragment.instance());
-        }
+//        if (HomeFragment.instance().isVisible()) {
+//            transaction.hide(HomeFragment.instance());
+//        }
 
         if (!DashboardFragment.instance().isAdded()) {
             transaction.add(R.id.content, DashboardFragment.instance());
