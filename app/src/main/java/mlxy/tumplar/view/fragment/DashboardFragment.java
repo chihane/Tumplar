@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ import mlxy.tumplar.entity.PhotoPost;
 import mlxy.tumplar.presenter.DashboardPresenter;
 import mlxy.tumplar.view.DashboardView;
 import mlxy.tumplar.view.adapter.DashboardListAdapter;
-import mlxy.tumplar.view.adapter.ToolbarDropdownAdapter;
 
 public class DashboardFragment extends BaseFragment implements DashboardView, SwipeRefreshLayout.OnRefreshListener, DashboardListAdapter.OnLoadMoreListener {
     private static final class Initializer {
@@ -43,7 +41,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
 
     private LayoutMode layoutMode = LayoutMode.LIST;
     private LinearLayoutManager listLayoutManager;
-    private StaggeredGridLayoutManager flowLayoutManager;
     private GridLayoutManager gridLayoutManager;
 
     private DashboardPresenter presenter;
@@ -74,12 +71,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         presenter.onTakeView(this);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         ActionBar supportActionBar = activity.getSupportActionBar();
-        supportActionBar.setTitle(null);
         supportActionBar.setDisplayShowCustomEnabled(true);
-
-        Spinner spinner = (Spinner) LayoutInflater.from(activity).inflate(R.layout.toolbar_spinner, null, false);
-        spinner.setAdapter(new ToolbarDropdownAdapter(activity, R.string.dashboard, R.array.dashboard_source));
-        supportActionBar.setCustomView(spinner);
     }
 
     @Override
@@ -132,7 +124,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.menu_list).setVisible(layoutMode == LayoutMode.LIST);
-        menu.findItem(R.id.menu_staggered).setVisible(layoutMode == LayoutMode.FLOW);
         menu.findItem(R.id.menu_grid).setVisible(layoutMode == LayoutMode.GRID);
     }
 
@@ -143,11 +134,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
                 break;
 
             case R.id.menu_list:
-                changeLayoutType(LayoutMode.FLOW);
-                getActivity().invalidateOptionsMenu();
-                break;
-
-            case R.id.menu_staggered:
                 changeLayoutType(LayoutMode.GRID);
                 getActivity().invalidateOptionsMenu();
                 break;
@@ -171,14 +157,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
                 adapter.setImageInSquare(false);
                 break;
 
-            case FLOW:
-                if (flowLayoutManager == null) {
-                    flowLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                }
-                recyclerViewPost.setLayoutManager(flowLayoutManager);
-                adapter.setImageInSquare(false);
-                break;
-
             case GRID:
                 if (gridLayoutManager == null) {
                     gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
@@ -190,6 +168,6 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
     }
 
     enum LayoutMode {
-        LIST, FLOW, GRID
+        LIST, GRID
     }
 }
