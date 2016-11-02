@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="@dimen/cardview_default_radius"
+    android:layout_marginTop="@dimen/card_gap"
+    app:cardCornerRadius="0dp"
     app:cardElevation="@dimen/cardview_default_elevation">
 
     <RelativeLayout
@@ -21,27 +22,24 @@
                 android:id="@+id/draweeAvatar"
                 android:layout_width="@dimen/avatar_tiny"
                 android:layout_height="@dimen/avatar_tiny"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 app:actualImageScaleType="centerCrop"
                 app:backgroundImage="@android:color/darker_gray"
-                app:roundedCornerRadius="@dimen/corner_avatar_small" />
+                app:roundedCornerRadius="@dimen/corner_avatar_small"/>
 
             <TextView
                 android:id="@+id/textViewBlogName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@+id/draweeAvatar"
-                android:layout_toRightOf="@+id/draweeAvatar"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/text_size_body"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
@@ -52,7 +50,7 @@
             android:layout_below="@+id/layout_poster"
             app:actualImageScaleType="centerCrop"
             app:backgroundImage="@android:color/darker_gray"
-            app:failureImage="@mipmap/ic_failed" />
+            app:failureImage="@mipmap/ic_failed"/>
 
     </RelativeLayout>
 

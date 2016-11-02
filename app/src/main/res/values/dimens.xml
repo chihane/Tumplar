@@ -15,4 +15,6 @@
     <dimen name="action_bar_subtitle_text_size">14sp</dimen>
     <dimen name="action_bar_subtitle_top_margin">-3dp</dimen>
     <dimen name="action_bar_subtitle_bottom_margin">5dp</dimen>
+
+    <dimen name="card_gap">8dp</dimen>
 </resources>
