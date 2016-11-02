@@ -8,7 +8,8 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 
 public class LoggingInterceptor implements Interceptor {
-    public static final boolean ENABLED = false;
+    public static final boolean ENABLED = true;
+    
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
