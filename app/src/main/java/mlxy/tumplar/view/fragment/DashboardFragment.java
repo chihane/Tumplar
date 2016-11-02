@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,7 +57,7 @@ public class DashboardFragment extends BaseFragment implements DashboardView, Sw
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerViewPost = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerViewPost.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        recyclerViewPost.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new DashboardListAdapter();
         adapter.setOnLoadMoreListener(this);
         recyclerViewPost.setAdapter(adapter);
