@@ -9,10 +9,12 @@ import de.psdev.licensesdialog.LicensesDialog;
 import mlxy.tumplar.BuildConfig;
 import mlxy.tumplar.R;
 import mlxy.tumplar.view.dialog.ChangelogDialogFragment;
+import mlxy.utils.T;
 
 public class HelpFragment extends PreferenceFragment {
     private Preference prefChangelog;
     private Preference prefLicense;
+    private Preference prefVersion;
 
     private ChangelogDialogFragment changelogDialog;
     private LicensesDialog licensesDialog;
@@ -24,6 +26,7 @@ public class HelpFragment extends PreferenceFragment {
 
         prefChangelog = findPreference(getString(R.string.pref_key_changelog));
         prefLicense = findPreference(getString(R.string.pref_key_license));
+        prefVersion = findPreference(getString(R.string.pref_key_version));
 
         Preference prefVersion = findPreference(getString(R.string.pref_key_version));
         prefVersion.setSummary(BuildConfig.VERSION_NAME);
@@ -38,6 +41,9 @@ public class HelpFragment extends PreferenceFragment {
         if (preference == prefLicense) {
             showLicense();
             return true;
+        }
+        if (preference == prefVersion) {
+            versionClicked();
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
@@ -61,5 +67,13 @@ public class HelpFragment extends PreferenceFragment {
                     .build();
         }
         licensesDialog.show();
+    }
+
+    private int versionClicked;
+    private void versionClicked() {
+        if (versionClicked == 8) {
+            T.showShort(getActivity(), "Easter egg coming soon (｀･ω･´)");
+        }
+        versionClicked++;
     }
 }
